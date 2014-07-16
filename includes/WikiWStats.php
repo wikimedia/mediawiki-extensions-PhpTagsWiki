@@ -2,11 +2,18 @@
 namespace PhpTagsObjects;
 
 /**
- * Description of WikiW
+ * Description of WikiWStats
  *
  * @author pastakhov
  */
 class WikiWStats extends \PhpTags\GenericObject {
+
+	/* @todo
+	 * pagesInCategory()
+	 * pagesInNamespace()
+	 * usersInGroup()
+	 *
+	 */
 
 	public static function c_ACTIVEUSERS() {
 		static $value = false;
