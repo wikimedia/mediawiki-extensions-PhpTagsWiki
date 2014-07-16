@@ -6,9 +6,13 @@ class PhpTagsWikiInit {
 		\PhpTags\Hooks::setObjects(
 				array(
 					'W' => 'WikiW',
+					'WCache' => 'WikiWCache',
+					'WPage' => 'WikiWPage',
 					'WStats' => 'WikiWStats',
+					'WTitle' => 'WikiWTitle',
 				)
 			);
+
 		return true;
 	}
 

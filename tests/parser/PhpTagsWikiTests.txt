@@ -1,0 +1,60 @@
+!! article
+Main Page
+!! text
+blah blah
+!! endarticle
+
+#!! article
+
+#!! text
+
+#!! endarticle
+
+
+
+
+!! test
+WStats::USERS
+!! input
+<phptag> echo WStats::USERS > 0 ? 'true' : 'false'; </phptag>
+!! result
+<p>true
+</p>
+!! end
+
+!! test
+WStats::PAGES
+!! input
+<phptag> echo WStats::PAGES > 0 ? 'true' : 'false'; </phptag>
+!! result
+<p>true
+</p>
+!! end
+
+!! test
+WPage::TITLE
+!! input
+{{#phptag: WPage::TITLE }}
+!! result
+<p>Parser test
+</p>
+!! end
+
+
+!! test
+WPage::TITLE->name
+!! input
+{{#phptag: WPage::TITLE->name }}
+!! result
+<p>Parser test
+</p>
+!! end
+
+!! test
+WPage::TITLE->talkNsText
+!! input
+{{#phptag: WPage::TITLE->talkNsText }}
+!! result
+<p>Talk
+</p>
+!! end
