@@ -1,17 +1,26 @@
 !! article
 Main Page
 !! text
-blah blah
+[[Category:Test pages]]
 !! endarticle
 
-#!! article
+!! article
+Test page
+!! text
+[[Category:Test pages]]
+!! endarticle
 
-#!! text
+!! article
+Other page
+!! text
+[[Category:Test pages]]
+!! endarticle
 
-#!! endarticle
-
-
-
+!! article
+Category:Test pages
+!! text
+[[Category:Test categories]]
+!! endarticle
 
 !! test
 WStats::USERS
@@ -33,20 +42,24 @@ WStats::PAGES
 
 !! test
 WPage::TITLE
+!! options
+title=[[User:Ævar Arnfjörð Bjarmason]]
 !! input
 {{#phptag: WPage::TITLE }}
 !! result
-<p>Parser test
+<p>User:Ævar Arnfjörð Bjarmason
 </p>
 !! end
 
 
 !! test
 WPage::TITLE->name
+!! options
+title=[[User:Ævar Arnfjörð Bjarmason]]
 !! input
 {{#phptag: WPage::TITLE->name }}
 !! result
-<p>Parser test
+<p>Ævar Arnfjörð Bjarmason
 </p>
 !! end
 
@@ -56,5 +69,29 @@ WPage::TITLE->talkNsText
 {{#phptag: WPage::TITLE->talkNsText }}
 !! result
 <p>Talk
+</p>
+!! end
+
+!! test
+WCategory->pageCount
+!! input
+<phptag>
+$c = new WCategory( 'Test pages' );
+echo $c->pageCount;
+</phptag>
+!! result
+<p>3
+</p>
+!! end
+
+!! test
+WCategory->subcatCount
+!! input
+<phptag>
+$c = new WCategory( 'Test categories' );
+echo $c->subcatCount;
+</phptag>
+!! result
+<p>1
 </p>
 !! end

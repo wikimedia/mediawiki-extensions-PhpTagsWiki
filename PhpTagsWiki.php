@@ -33,7 +33,7 @@ if ( PHPTAGS_HOOK_RELEASE != 4 ) {
 	);
 }
 
-define( 'PHPTAGS_WIKI_VERSION' , '1.1.0' );
+define( 'PHPTAGS_WIKI_VERSION' , '1.1.1' );
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(
@@ -58,11 +58,13 @@ $wgHooks['PhpTagsRuntimeFirstInit'][] = 'PhpTagsWikiInit::initializeRuntime';
 // Preparing classes for autoloading
 $wgAutoloadClasses['PhpTagsWikiInit']	= __DIR__ . '/PhpTagsWiki.init.php';
 
-$wgAutoloadClasses['PhpTagsObjects\\WikiW']			= __DIR__ . '/includes/WikiW.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWCache']	= __DIR__ . '/includes/WikiWCache.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWPage']		= __DIR__ . '/includes/WikiWPage.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWStats']	= __DIR__ . '/includes/WikiWStats.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWTitle']	= __DIR__ . '/includes/WikiWTitle.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiW']				= __DIR__ . '/includes/WikiW.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWCache']		= __DIR__ . '/includes/WikiWCache.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWCategory']		= __DIR__ . '/includes/WikiWCategory.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWPage']			= __DIR__ . '/includes/WikiWPage.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWStats']		= __DIR__ . '/includes/WikiWStats.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWTitle']		= __DIR__ . '/includes/WikiWTitle.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWTitleArray']	= __DIR__ . '/includes/WikiWTitleArray.php';
 
 /**
  * Add files to phpunit test
