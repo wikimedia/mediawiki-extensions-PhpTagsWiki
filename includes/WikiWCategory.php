@@ -8,6 +8,8 @@ namespace PhpTagsObjects;
  */
 class WikiWCategory extends \PhpTags\GenericObject {
 
+	private static $cache = array();
+
 	public function __construct( $name, $value = null ) {
 		if ( false === $value instanceof \Category ) {
 			$value = null;
@@ -15,7 +17,7 @@ class WikiWCategory extends \PhpTags\GenericObject {
 		parent::__construct( $name, $value );
 	}
 
-		public function m___construct( $name = null ) {
+	public function m___construct( $name = null ) {
 		$category = null;
 		if ( $name instanceof \PhpTags\GenericObject ) {
 			$value = $name->getValue();
@@ -26,10 +28,19 @@ class WikiWCategory extends \PhpTags\GenericObject {
 			}
 		} elseif ( true === is_string( $name ) ) {
 			$category = \Category::newFromName( $name );
+		} elseif ( true === is_numeric( $name ) ) {
+			$category = \Category::newFromID( (int) $name );
 		}
 
 		if ( $category instanceof \Category ) {
-			$this->value = $category;
+			$dbkey = $category->getTitle()->getPrefixedDBkey();
+			if ( isset( self::$cache[$dbkey] ) ) {
+				$this->value =& self::$cache[$dbkey];
+			} else {
+				\PhpTags\Runtime::incrementExpensiveFunctionCount( "{$this->name}::__construct()" );
+				self::$cache[$dbkey] =& $category;
+				$this->value =& $category;
+			}
 			return true;
 		}
 		$this->value = null;

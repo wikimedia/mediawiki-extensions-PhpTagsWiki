@@ -25,30 +25,22 @@ class WikiWCache extends \PhpTags\GenericObject {
 		return parent::checkArguments( $object, $method, $arguments, $expects );
 	}
 
-	/**
-	 * Get Parser from $transit variable
-	 * @return \Parser
-	 */
-	private static function getParser() {
-		return \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER];
-	}
-
 	public static function s_updateCacheExpiry( $seconds ) {
-		return self::getParser()->getOutput()->updateCacheExpiry( $seconds );
+		return \PhpTags\Runtime::getParser()->getOutput()->updateCacheExpiry( $seconds );
 	}
 
 	public static function s_disableCache() {
 		global $wgOut;
-		self::getParser()->disableCache();
+		\PhpTags\Runtime::getParser()->disableCache();
 		$wgOut->enableClientCache( false );
 	}
 
 	public static function c_CACHE_EXPIRY() {
-		return self::getParser()->getOutput()->getCacheExpiry();
+		return \PhpTags\Runtime::getParser()->getOutput()->getCacheExpiry();
 	}
 
 	public static function c_CACHE_TIME_STRING() {
-		return self::getParser()->getOutput()->getCacheTime();
+		return \PhpTags\Runtime::getParser()->getOutput()->getCacheTime();
 	}
 
 	public static function c_CACHE_TIME() {

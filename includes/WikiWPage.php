@@ -13,7 +13,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 	}
 
 	public static function c_ID() {
-		$parser = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER];
+		$parser = \PhpTags\Runtime::getParser();
 		$pageid = $parser->getTitle()->getArticleID();
 		return $pageid;
 	}
@@ -21,7 +21,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 	public static function c_TITLE() {
 		return \PhpTags\Hooks::getObjectWithValue(
 				'WTitle',
-				\PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle()
+				\PhpTags\Runtime::getParser()->getTitle()
 			);
 	}
 

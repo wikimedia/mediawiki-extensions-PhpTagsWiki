@@ -39,77 +39,77 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getNsText();
 	}
 
 	public static function c_NS_NUMBER( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getNamespace();
 	}
 
 	public static function c_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getText();
 	}
 
 	public static function c_FULL_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getPrefixedText();
 	}
 
 	public static function c_BASE_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getBaseText();
 	}
 
 	public static function c_SUBPAGE_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getSubpageText();
 	}
 
 	public static function c_SUBJECT_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getSubjectNsText();
 	}
 
 	public static function c_TALK_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getTalkNsText();
 	}
 
 	public static function c_IS_CONTENT_PAGE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->isContentPage();
 	}
 
 	public static function c_IS_MOVABLE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->isMovable();
 	}
 
 	public static function c_IS_MAIN_PAGE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
+			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->isMainPage();
 	}
