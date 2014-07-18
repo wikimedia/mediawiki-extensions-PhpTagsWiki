@@ -2,7 +2,7 @@
 namespace PhpTagsObjects;
 
 /**
- * Description of WikiWCache
+ * The WikiWCache class manages the cache of page rendering.
  *
  * @author pastakhov
  */
@@ -43,18 +43,18 @@ class WikiWCache extends \PhpTags\GenericObject {
 		$wgOut->enableClientCache( false );
 	}
 
-	public static function c_CACHEEXPIRY() {
+	public static function c_CACHE_EXPIRY() {
 		return self::getParser()->getOutput()->getCacheExpiry();
 	}
 
-	public static function c_CACHETIMESTRING() {
+	public static function c_CACHE_TIME_STRING() {
 		return self::getParser()->getOutput()->getCacheTime();
 	}
 
-	public static function c_CACHETIME() {
+	public static function c_CACHE_TIME() {
 		return \PhpTags\Hooks::getObjectWithValue(
 				'DateTime',
-				new \DateTime( self::c_CACHETIMESTRING() )
+				new \DateTime( self::c_CACHE_TIME_STRING() )
 			);
 	}
 

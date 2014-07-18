@@ -2,7 +2,7 @@
 namespace PhpTagsObjects;
 
 /**
- * Description of WikiWStats
+ * Static accessor class for site_stats and related things
  *
  * @author pastakhov
  */
@@ -15,7 +15,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	 *
 	 */
 
-	public static function c_ACTIVEUSERS() {
+	public static function c_ACTIVE_USERS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::activeUsers();

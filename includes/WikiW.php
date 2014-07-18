@@ -8,11 +8,11 @@ namespace PhpTagsObjects;
  */
 class WikiW extends \PhpTags\GenericObject {
 
-	public static function c_CONTENTLANGUAGE() {
+	public static function c_CONTENT_LANGUAGE() {
 		return $GLOBALS['wgLanguageCode'];
 	}
 
-	public static function c_CURRENTVERSION() {
+	public static function c_CURRENT_VERSION() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = \SpecialVersion::getVersion();
@@ -20,7 +20,7 @@ class WikiW extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_SCRIPTPATH() {
+	public static function c_SCRIPT_PATH() {
 		return $GLOBALS['wgScriptPath'];
 	}
 
@@ -28,17 +28,17 @@ class WikiW extends \PhpTags\GenericObject {
 		return $GLOBALS['wgServer'];
 	}
 
-	public static function c_SERVERNAME() {
+	public static function c_SERVER_NAME() {
 		global $wgServer;
 		$serverParts = \wfParseUrl( $wgServer );
 		return $serverParts && isset( $serverParts['host'] ) ? $serverParts['host'] : $wgServer;
 	}
 
-	public static function c_SITENAME() {
+	public static function c_SITE_NAME() {
 		return $GLOBALS['wgSitename'];
 	}
 
-	public static function c_STYLEPATH() {
+	public static function c_STYLE_PATH() {
 		return $GLOBALS['wgStylePath'];
 	}
 

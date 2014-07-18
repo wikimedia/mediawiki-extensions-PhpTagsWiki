@@ -13,7 +13,7 @@ class WikiWTitle extends \PhpTags\GenericObject {
 	}
 
 	public function toString() {
-		return (string)  self::c_FULLNAME( $this->name );
+		return (string)  self::c_FULL_NAME( $this->name );
 	}
 
 	public function m___construct( $name, $namespace = null ) {
@@ -37,14 +37,14 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return false;
 	}
 
-	public static function c_NSTEXT( $objectName, $title = null ) {
+	public static function c_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getNsText();
 	}
 
-	public static function c_NSNUMBER( $objectName, $title = null ) {
+	public static function c_NS_NUMBER( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
@@ -58,56 +58,56 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return $title->getText();
 	}
 
-	public static function c_FULLNAME( $objectName, $title = null ) {
+	public static function c_FULL_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getPrefixedText();
 	}
 
-	public static function c_BASENAME( $objectName, $title = null ) {
+	public static function c_BASE_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getBaseText();
 	}
 
-	public static function c_SUBPAGENAME( $objectName, $title = null ) {
+	public static function c_SUBPAGE_NAME( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getSubpageText();
 	}
 
-	public static function c_SUBJECTNSTEXT( $objectName, $title = null ) {
+	public static function c_SUBJECT_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getSubjectNsText();
 	}
 
-	public static function c_TALKNSTEXT( $objectName, $title = null ) {
+	public static function c_TALK_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->getTalkNsText();
 	}
 
-	public static function c_ISCONTENTPAGE( $objectName, $title = null ) {
+	public static function c_IS_CONTENT_PAGE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->isContentPage();
 	}
 
-	public static function c_ISMOVABLE( $objectName, $title = null ) {
+	public static function c_IS_MOVABLE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
 		return $title->isMovable();
 	}
 
-	public static function c_ISMAINPAGE( $objectName, $title = null ) {
+	public static function c_IS_MAIN_PAGE( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_PARSER]->getTitle();
 		}
@@ -115,11 +115,11 @@ class WikiWTitle extends \PhpTags\GenericObject {
 	}
 
 	public function p_nsText() {
-		return self::c_NSTEXT( $this->name, $this->value );
+		return self::c_NS_TEXT( $this->name, $this->value );
 	}
 
 	public function p_nsNumber() {
-		return self::c_NSNUMBER( $this->name, $this->value );
+		return self::c_NS_NUMBER( $this->name, $this->value );
 	}
 
 	public function p_name() {
@@ -127,35 +127,35 @@ class WikiWTitle extends \PhpTags\GenericObject {
 	}
 
 	public function p_fullName() {
-		return self::c_FULLNAME( $this->name, $this->value );
+		return self::c_FULL_NAME( $this->name, $this->value );
 	}
 
 	public function p_baseName() {
-		return self::c_BASENAME( $this->name, $this->value );
+		return self::c_BASE_NAME( $this->name, $this->value );
 	}
 
 	public function p_subpageName() {
-		return self::c_SUBPAGENAME( $this->name, $this->value );
+		return self::c_SUBPAGE_NAME( $this->name, $this->value );
 	}
 
 	public function p_subjectNsText() {
-		return self::c_SUBJECTNSTEXT( $this->name, $this->value );
+		return self::c_SUBJECT_NS_TEXT( $this->name, $this->value );
 	}
 
 	public function p_talkNsText() {
-		return self::c_TALKNSTEXT( $this->name, $this->value );
+		return self::c_TALK_NS_TEXT( $this->name, $this->value );
 	}
 
 	public function p_isContentPage() {
-		return self::c_ISCONTENTPAGE( $this->name, $this->value );
+		return self::c_IS_CONTENT_PAGE( $this->name, $this->value );
 	}
 
 	public function p_isMovable() {
-		return self::c_ISMOVABLE( $this->name, $this->value );
+		return self::c_IS_MOVABLE( $this->name, $this->value );
 	}
 
 	public function p_isMainPage() {
-		return self::c_ISMAINPAGE( $this->name, $this->value );
+		return self::c_IS_MAIN_PAGE( $this->name, $this->value );
 	}
 
 }
