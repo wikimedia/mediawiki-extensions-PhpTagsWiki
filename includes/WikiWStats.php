@@ -15,7 +15,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	 *
 	 */
 
-	public static function c_ACTIVE_USERS() {
+	public static function q_ACTIVE_USERS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::activeUsers();
@@ -23,7 +23,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_ADMINS() {
+	public static function q_ADMINS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::numberingroup( 'sysop' );
@@ -31,7 +31,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_ARTICLES() {
+	public static function q_ARTICLES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::articles();
@@ -39,7 +39,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_EDITS() {
+	public static function q_EDITS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::edits();
@@ -47,7 +47,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_FILES() {
+	public static function q_FILES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::images();
@@ -55,7 +55,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_PAGES() {
+	public static function q_PAGES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::pages();
@@ -63,7 +63,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_USERS() {
+	public static function q_USERS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::users();
@@ -71,7 +71,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_VIEWS() {
+	public static function q_VIEWS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = $GLOBALS['wgDisableCounters'] ? (int)\SiteStats::views() : null;
@@ -79,7 +79,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function c_JOBS() {
+	public static function q_JOBS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::jobs();
