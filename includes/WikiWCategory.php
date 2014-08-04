@@ -35,11 +35,11 @@ class WikiWCategory extends \PhpTags\GenericObject {
 		if ( $category instanceof \Category ) {
 			$dbkey = $category->getTitle()->getPrefixedDBkey();
 			if ( isset( self::$cache[$dbkey] ) ) {
-				$this->value =& self::$cache[$dbkey];
+				$this->value = self::$cache[$dbkey];
 			} else {
 				\PhpTags\Runtime::incrementExpensiveFunctionCount( "{$this->name}::__construct()" );
-				self::$cache[$dbkey] =& $category;
-				$this->value =& $category;
+				self::$cache[$dbkey] = $category;
+				$this->value = $category;
 			}
 			return true;
 		}

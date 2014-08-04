@@ -86,11 +86,27 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return $title->getSubjectNsText();
 	}
 
+	public static function c_SUBJECT_NS_NUMBER( $objectName, $title = null ) {
+		if ( false === $title instanceof \Title ) {
+			$title = \PhpTags\Runtime::getParser()->getTitle();
+		}
+		$namespace = $title->getNamespace();
+		return \MWNamespace::getSubject( $namespace );
+	}
+
 	public static function c_TALK_NS_TEXT( $objectName, $title = null ) {
 		if ( false === $title instanceof \Title ) {
 			$title = \PhpTags\Runtime::getParser()->getTitle();
 		}
 		return $title->getTalkNsText();
+	}
+
+	public static function c_TALK_NS_NUMBER( $objectName, $title = null ) {
+		if ( false === $title instanceof \Title ) {
+			$title = \PhpTags\Runtime::getParser()->getTitle();
+		}
+		$namespace = $title->getNamespace();
+		return \MWNamespace::getTalk( $namespace );
 	}
 
 	public static function c_IS_CONTENT_PAGE( $objectName, $title = null ) {
@@ -142,8 +158,16 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return self::c_SUBJECT_NS_TEXT( $this->name, $this->value );
 	}
 
+	public function p_subjectNsNumber() {
+		return self::c_SUBJECT_NS_NUMBER( $this->name, $this->value );
+	}
+
 	public function p_talkNsText() {
 		return self::c_TALK_NS_TEXT( $this->name, $this->value );
+	}
+
+	public function p_talkNsNumber() {
+		return self::c_TALK_NS_NUMBER( $this->name, $this->value );
 	}
 
 	public function p_isContentPage() {
