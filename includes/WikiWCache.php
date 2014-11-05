@@ -10,13 +10,13 @@ class WikiWCache extends \PhpTags\GenericObject {
 
 	public static function checkArguments( $object, $method, $arguments, $expects = false ) {
 		switch ( $method ) {
-			case 'updateCacheExpiry':
+			case 'updatecacheexpiry':
 				$expects = array(
 					\PhpTags\Hooks::TYPE_NUMBER,
 					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 1,
 				);
 				break;
-			case 'disableCache':
+			case 'disablecache':
 				$expects = array(
 					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 0,
 				);
@@ -30,9 +30,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	}
 
 	public static function s_disableCache() {
-		global $wgOut;
-		\PhpTags\Runtime::getParser()->disableCache();
-		$wgOut->enableClientCache( false );
+		\PhpTags\Runtime::disableParserCache();
 	}
 
 	public static function c_CACHE_EXPIRY() {
