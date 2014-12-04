@@ -13,7 +13,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 	}
 
 	public static function checkArguments( $object, $method, $arguments, $expects = false ) {
-		switch ( strtolower( $method ) ) {
+		switch ( $method ) {
 			case '__construct':
 				$expects = array(
 					\PhpTags\Hooks::TYPE_MIXED,
@@ -21,6 +21,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 				);
 				break;
 			case 'addcategory':
+				$method = 'addCategory';
 				$expects = array(
 					\PhpTags\Hooks::TYPE_MIXED,
 					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 1,
@@ -85,8 +86,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $parser->getDefaultSort() );
 			return true;
 		} else {
-			\PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_EXCEPTION][] = new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::AddCategory() \"$category\" is not a valid title!" );
-			wfDebug( __METHOD__ . ": [[MediaWiki:$msg]] is not a valid title!\n" );
+			\PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_EXCEPTION][] = new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::addCategory() \"$category\" is not a valid title!" );
 			return false;
 		}
 	}
