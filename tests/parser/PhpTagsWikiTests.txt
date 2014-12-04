@@ -82,7 +82,7 @@ WPage::$TITLE->talkNsText
 !! end
 
 !! test
-WCategory->pageCount
+WCategory->pageCount Test pages
 !! input
 <phptag>
 $c = new WCategory( 'Test pages' );
@@ -113,4 +113,25 @@ Test default sort key
 <p>false
 true
 </p>
+!! end
+
+!! test
+WPage::addCategory foo
+!! input
+<phptag> WPage::addCategory( 'Foo' ); </phptag>
+!! result
+!! end
+
+!! test
+WPage::addCategory foo bar
+!! input
+<phptag> WPage::addCategory( ['foo', 'bar'] ); </phptag>
+!! result
+!! end
+
+!! test
+WPage::addCategory WCategory bar
+!! input
+<phptag> WPage::addCategory( new WCategory( 'bar' ) ); </phptag>
+!! result
 !! end
