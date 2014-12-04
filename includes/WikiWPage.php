@@ -12,6 +12,24 @@ class WikiWPage extends \PhpTags\GenericObject {
 		$this->value['name'] = $name;
 	}
 
+	public static function checkArguments( $object, $method, $arguments, $expects = false ) {
+		switch ( strtolower( $method ) ) {
+			case '__construct':
+				$expects = array(
+					\PhpTags\Hooks::TYPE_MIXED,
+					\PhpTags\Hooks::EXPECTS_MAXIMUM_PARAMETERS => 1,
+				);
+				break;
+			case 'addcategory':
+				$expects = array(
+					\PhpTags\Hooks::TYPE_MIXED,
+					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 1,
+				);
+				break;
+			}
+		return parent::checkArguments( $object, $method, $arguments, $expects );
+	}
+
 	public static function q_ID() {
 		$parser = \PhpTags\Runtime::getParser();
 		$pageid = $parser->getTitle()->getArticleID();
@@ -42,5 +60,35 @@ class WikiWPage extends \PhpTags\GenericObject {
 		return $parser->setDefaultSort( (string)$value );
 	}
 
-}
+	public static function s_AddCategory( $category ) {
+		if ( is_array( $category ) ) {
+			$return = true;
+			foreach ( $category as $c ) {
+				$return = self::s_AddCategory( $c ) && $return;
+			}
+			return $return;
+		}
 
+		if ( is_string( $category ) ) {
+			$titleCategory = \Title::makeTitleSafe( NS_CATEGORY, $category );
+		} else {
+			$wcat = \PhpTags\Hooks::createObject( array($category), 'WCategory' );
+			if ( $wcat && $wcat->value instanceof \Category ) {
+				$titleCategory = $wcat->value->getTitle();
+			} else {
+				$titleCategory = false;
+				$category = '';
+			}
+		}
+		if ( $titleCategory ) {
+			$parser = \PhpTags\Runtime::getParser();
+			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $parser->getDefaultSort() );
+			return true;
+		} else {
+			\PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_EXCEPTION][] = new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::AddCategory() \"$category\" is not a valid title!" );
+			wfDebug( __METHOD__ . ": [[MediaWiki:$msg]] is not a valid title!\n" );
+			return false;
+		}
+	}
+
+}
