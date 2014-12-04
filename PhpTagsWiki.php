@@ -33,7 +33,7 @@ if ( PHPTAGS_HOOK_RELEASE != 5 ) {
 	);
 }
 
-define( 'PHPTAGS_WIKI_VERSION' , '1.5.2' );
+define( 'PHPTAGS_WIKI_VERSION' , '1.5.3' );
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(

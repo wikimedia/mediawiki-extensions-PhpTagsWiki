@@ -11,12 +11,14 @@ class WikiWCache extends \PhpTags\GenericObject {
 	public static function checkArguments( $object, $method, $arguments, $expects = false ) {
 		switch ( $method ) {
 			case 'updatecacheexpiry':
+				$method = 'updateCacheExpiry';
 				$expects = array(
 					\PhpTags\Hooks::TYPE_NUMBER,
 					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 1,
 				);
 				break;
 			case 'disablecache':
+				$method = 'disableCache';
 				$expects = array(
 					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 0,
 				);
