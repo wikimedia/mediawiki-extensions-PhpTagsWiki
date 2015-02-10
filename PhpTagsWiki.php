@@ -15,25 +15,7 @@ if ( !defined('MEDIAWIKI') ) {
 	die( 'This file is an extension to MediaWiki and thus not a valid entry point.' );
 }
 
-if ( !defined( 'PHPTAGS_VERSION' ) ) {
-	die( 'ERROR: The <a href="https://www.mediawiki.org/wiki/Extension:PhpTags">extension PhpTags</a> must be installed for the extension PhpTags Wiki to run!' );
-}
-
-$needVersion = '3.8.0';
-if ( version_compare( PHPTAGS_VERSION, $needVersion, '<' ) ) {
-	die(
-		'<b>Error:</b> This version of extension PhpTags Wiki needs <a href="https://www.mediawiki.org/wiki/Extension:PhpTags">PhpTags</a> ' . $needVersion . ' or later.
-		You are currently using version ' . PHPTAGS_VERSION . '.<br />'
-	);
-}
-
-if ( PHPTAGS_HOOK_RELEASE != 5 ) {
-	die (
-			'<b>Error:</b> This version of extension PhpTags Wiki is not compatible to current version of extension PhpTags.'
-	);
-}
-
-define( 'PHPTAGS_WIKI_VERSION' , '1.5.3' );
+define( 'PHPTAGS_WIKI_VERSION' , '1.6.0' );
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(
@@ -49,7 +31,23 @@ $wgExtensionCredits['phptags'][] = array(
 $wgMessagesDirs['PhpTagsWiki'] =			__DIR__ . '/i18n';
 $wgExtensionMessagesFiles['PhpTagsWiki'] =	__DIR__ . '/PhpTagsWiki.i18n.php';
 
-// Specify the function that will initialize the parser function.
+/**
+ * @codeCoverageIgnore
+ */
+$wgHooks['ParserFirstCallInit'][] = function() {
+	if ( !defined( 'PHPTAGS_VERSION' ) ) {
+	throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Wiki extension." );
+	}
+	$needVersion = '4.0.2';
+	if ( version_compare( PHPTAGS_VERSION, $needVersion, '<' ) ) {
+		throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $needVersion or above.\n You have " . PHPTAGS_VERSION . ". Please update it." );
+	}
+	if ( PHPTAGS_HOOK_RELEASE != 6 ) {
+		throw new MWException( "\n\nThis version of the PhpTags Wiki extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
+	}
+	return true;
+};
+
 /**
  * @codeCoverageIgnore
  */
@@ -58,6 +56,9 @@ $wgHooks['PhpTagsRuntimeFirstInit'][] = 'PhpTagsWikiInit::initializeRuntime';
 // Preparing classes for autoloading
 $wgAutoloadClasses['PhpTagsWikiInit']	= __DIR__ . '/PhpTagsWiki.init.php';
 
+//$wgAutoloadClasses['PhpTagsObjects\\WikiQuery']			= __DIR__ . '/includes/WikiQuery.php';
+//$wgAutoloadClasses['PhpTagsObjects\\WikiQCondition']	= __DIR__ . '/includes/WikiQCondition.php';
+//$wgAutoloadClasses['PhpTagsObjects\\WikiQResult']		= __DIR__ . '/includes/WikiQResult.php';
 $wgAutoloadClasses['PhpTagsObjects\\WikiW']				= __DIR__ . '/includes/WikiW.php';
 $wgAutoloadClasses['PhpTagsObjects\\WikiWCache']		= __DIR__ . '/includes/WikiWCache.php';
 $wgAutoloadClasses['PhpTagsObjects\\WikiWCategory']		= __DIR__ . '/includes/WikiWCategory.php';
@@ -77,3 +78,5 @@ $wgHooks['UnitTestsList'][] = function ( &$files ) {
 };
 
 $wgParserTestFiles[] = __DIR__ . '/tests/parser/PhpTagsWikiTests.txt';
+
+$wgPhpTagsQueryLimit = 200;
