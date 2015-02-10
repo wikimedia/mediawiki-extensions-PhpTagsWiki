@@ -13,10 +13,10 @@ class WikiWTitle extends \PhpTags\GenericObject {
 	}
 
 	public function toString() {
-		return (string)  self::c_FULL_NAME( $this->name );
+		return $this->p_fullName();
 	}
 
-	public function m___construct( $name, $namespace = null ) {
+	public function m___construct( $name, $namespace = NS_MAIN ) {
 		$title = null;
 		if ( $name instanceof \PhpTags\GenericObject ) {
 			$value = $name->getValue();
@@ -39,56 +39,63 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getNsText();
 	}
 
 	public static function c_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getNamespace();
 	}
 
 	public static function c_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getText();
 	}
 
 	public static function c_FULL_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getPrefixedText();
 	}
 
 	public static function c_BASE_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getBaseText();
 	}
 
 	public static function c_SUBPAGE_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getSubpageText();
 	}
 
+	public static function c_ROOT_NAME( $title = null ) {
+		if ( false === $title instanceof \Title ) {
+			$title = \PhpTags\Runtime::$parser->getTitle();
+		}
+		return $title->getRootText();
+	}
+
 	public static function c_SUBJECT_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getSubjectNsText();
 	}
 
 	public static function c_SUBJECT_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		$namespace = $title->getNamespace();
 		return \MWNamespace::getSubject( $namespace );
@@ -96,14 +103,14 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_TALK_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->getTalkNsText();
 	}
 
 	public static function c_TALK_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		$namespace = $title->getNamespace();
 		return \MWNamespace::getTalk( $namespace );
@@ -111,21 +118,21 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_IS_CONTENT_PAGE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->isContentPage();
 	}
 
 	public static function c_IS_MOVABLE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->isMovable();
 	}
 
 	public static function c_IS_MAIN_PAGE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Runtime::getParser()->getTitle();
+			$title = \PhpTags\Runtime::$parser->getTitle();
 		}
 		return $title->isMainPage();
 	}
@@ -152,6 +159,10 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public function p_subpageName() {
 		return self::c_SUBPAGE_NAME( $this->value );
+	}
+
+	public function p_rootName() {
+		return self::c_ROOT_NAME( $this->value );
 	}
 
 	public function p_subjectNsText() {

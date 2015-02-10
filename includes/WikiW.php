@@ -9,7 +9,8 @@ namespace PhpTagsObjects;
 class WikiW extends \PhpTags\GenericObject {
 
 	public static function c_CONTENT_LANGUAGE() {
-		return $GLOBALS['wgLanguageCode'];
+		global $wgLanguageCode;
+		return $wgLanguageCode;
 	}
 
 	public static function c_CURRENT_VERSION() {
@@ -21,11 +22,13 @@ class WikiW extends \PhpTags\GenericObject {
 	}
 
 	public static function c_SCRIPT_PATH() {
-		return $GLOBALS['wgScriptPath'];
+		global $wgScriptPath;
+		return $wgScriptPath;
 	}
 
 	public static function c_SERVER() {
-		return $GLOBALS['wgServer'];
+		global $wgServer;
+		return $wgServer;
 	}
 
 	public static function c_SERVER_NAME() {
@@ -35,11 +38,13 @@ class WikiW extends \PhpTags\GenericObject {
 	}
 
 	public static function c_SITE_NAME() {
-		return $GLOBALS['wgSitename'];
+		global $wgSitename;
+		return $wgSitename;
 	}
 
 	public static function c_STYLE_PATH() {
-		return $GLOBALS['wgStylePath'];
+		global $wgStylePath;
+		return $wgStylePath;
 	}
 
 }

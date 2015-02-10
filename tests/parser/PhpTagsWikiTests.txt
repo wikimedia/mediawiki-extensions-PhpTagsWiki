@@ -25,36 +25,36 @@ Category:Test pages
 !! article
 Test default sort key
 !! text
-{{#phptag: echo WPage::$DEFAULT_SORT_KEY === false ? 'false' : 'true'; }}
-{{#phptag: WPage::$DEFAULT_SORT_KEY = 'Sort key page'; }}
+{{#phptag: echo WPage::$defaultSortKey === false ? 'false' : 'true'; }}
+{{#phptag: WPage::$defaultSortKey = 'Sort key page'; }}
 [[Category:Test pages]]
-{{#phptag: echo WPage::$DEFAULT_SORT_KEY === false ? 'false' : 'true'; }}
+{{#phptag: echo WPage::$defaultSortKey === false ? 'false' : 'true'; }}
 !! endarticle
 
 !! test
-WStats::$USERS
+WStats::USERS
 !! input
-<phptag> echo WStats::$USERS > 0 ? 'true' : 'false'; </phptag>
+<phptag> echo WStats::USERS > 0 ? 'true' : 'false'; </phptag>
 !! result
 <p>true
 </p>
 !! end
 
 !! test
-WStats::$PAGES
+WStats::PAGES
 !! input
-<phptag> echo WStats::$PAGES > 0 ? 'true' : 'false'; </phptag>
+<phptag> echo WStats::PAGES > 0 ? 'true' : 'false'; </phptag>
 !! result
 <p>true
 </p>
 !! end
 
 !! test
-WPage::$TITLE
+WPage::TITLE
 !! options
 title=[[User:Ævar Arnfjörð Bjarmason]]
 !! input
-{{#phptag: WPage::$TITLE }}
+{{#phptag: WPage::TITLE }}
 !! result
 <p>User:Ævar Arnfjörð Bjarmason
 </p>
@@ -62,20 +62,20 @@ title=[[User:Ævar Arnfjörð Bjarmason]]
 
 
 !! test
-WPage::$TITLE->name
+WPage::TITLE->name
 !! options
 title=[[User:Ævar Arnfjörð Bjarmason]]
 !! input
-{{#phptag: WPage::$TITLE->name }}
+{{#phptag: WPage::TITLE->name }}
 !! result
 <p>Ævar Arnfjörð Bjarmason
 </p>
 !! end
 
 !! test
-WPage::$TITLE->talkNsText
+WPage::TITLE->talkNsText
 !! input
-{{#phptag: WPage::$TITLE->talkNsText }}
+{{#phptag: WPage::TITLE->talkNsText }}
 !! result
 <p>Talk
 </p>

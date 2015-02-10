@@ -15,7 +15,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	 *
 	 */
 
-	public static function q_ACTIVE_USERS() {
+	public static function c_ACTIVE_USERS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::activeUsers();
@@ -23,7 +23,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_ADMINS() {
+	public static function c_ADMINS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::numberingroup( 'sysop' );
@@ -31,7 +31,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_ARTICLES() {
+	public static function c_ARTICLES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::articles();
@@ -39,7 +39,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_EDITS() {
+	public static function c_EDITS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::edits();
@@ -47,7 +47,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_FILES() {
+	public static function c_FILES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::images();
@@ -55,7 +55,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_PAGES() {
+	public static function c_PAGES() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::pages();
@@ -63,7 +63,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_USERS() {
+	public static function c_USERS() {
 		static $value = false;
 		if ( $value === false ) {
 			$value = (int)\SiteStats::users();
@@ -71,18 +71,61 @@ class WikiWStats extends \PhpTags\GenericObject {
 		return $value;
 	}
 
-	public static function q_VIEWS() {
+	public static function c_JOBS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = $GLOBALS['wgDisableCounters'] ? (int)\SiteStats::views() : null;
+			$value = (int)\SiteStats::jobs();
 		}
 		return $value;
 	}
 
-	public static function q_JOBS() {
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_ACTIVE_USERS() { return self::c_ACTIVE_USERS(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_ADMINS() { return self::c_ADMINS(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_ARTICLES() { return self::c_ARTICLES(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_EDITS() { return self::c_EDITS(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_FILES() { return self::c_FILES(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_JOBS() { return self::c_JOBS(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_PAGES() { return self::c_PAGES(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_USERS() { return self::c_USERS(); }
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_VIEWS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::jobs();
+			$value = $GLOBALS['wgDisableCounters'] ? (int)\SiteStats::views() : null;
 		}
 		return $value;
 	}

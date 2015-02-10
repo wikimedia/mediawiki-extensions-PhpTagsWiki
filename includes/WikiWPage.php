@@ -8,39 +8,22 @@ namespace PhpTagsObjects;
  */
 class WikiWPage extends \PhpTags\GenericObject {
 
-	public function m___construct( $name = null ) {
-		$this->value['name'] = $name;
-	}
-
-	public static function checkArguments( $object, $method, $arguments, $expects = false ) {
-		switch ( $method ) {
-			case '__construct':
-				$expects = array(
-					\PhpTags\Hooks::TYPE_MIXED,
-					\PhpTags\Hooks::EXPECTS_MAXIMUM_PARAMETERS => 1,
-				);
-				break;
-			case 'addcategory':
-				$method = 'addCategory';
-				$expects = array(
-					\PhpTags\Hooks::TYPE_MIXED,
-					\PhpTags\Hooks::EXPECTS_EXACTLY_PARAMETERS => 1,
-				);
-				break;
-			}
-		return parent::checkArguments( $object, $method, $arguments, $expects );
-	}
-
-	public static function q_ID() {
-		$parser = \PhpTags\Runtime::getParser();
-		$pageid = $parser->getTitle()->getArticleID();
+	/**
+	 * Get the article ID for current page
+	 * @return int
+	 */
+	public static function c_ID() {
+		static $pageid = false;
+		if ( $pageid === false ) {
+			$pageid = \PhpTags\Runtime::$parser->getTitle()->getArticleID();
+		}
 		return $pageid;
 	}
 
-	public static function q_TITLE() {
+	public static function c_TITLE() {
 		return \PhpTags\Hooks::getObjectWithValue(
 				'WTitle',
-				\PhpTags\Runtime::getParser()->getTitle()
+				\PhpTags\Runtime::$parser->getTitle()
 			);
 	}
 
@@ -48,20 +31,25 @@ class WikiWPage extends \PhpTags\GenericObject {
 		if ( true === isset( $this->value['title'] ) ) {
 			return $this->value['title'];
 		}
-
 	}
 
-	public static function q_DEFAULT_SORT_KEY() {
-		$parser = \PhpTags\Runtime::getParser();
-		return $parser->getCustomDefaultSort();
+	/**
+	 * Gets default category sort key
+	 * @return string
+	 */
+	public static function q_defaultSortKey() {
+		return \PhpTags\Runtime::$parser->getCustomDefaultSort();
 	}
 
-	public static function d_DEFAULT_SORT_KEY( $value ) {
-		$parser = \PhpTags\Runtime::getParser();
-		return $parser->setDefaultSort( (string)$value );
+	/**
+	 * Sets default category sort key
+	 * @param string $value
+	 */
+	public static function d_defaultSortKey( $value ) {
+		\PhpTags\Runtime::$parser->setDefaultSort( $value );
 	}
 
-	public static function s_AddCategory( $category ) {
+	public static function s_AddCategory( $category, $sortkey = '' ) {
 		if ( is_array( $category ) ) {
 			$return = true;
 			foreach ( $category as $c ) {
@@ -82,13 +70,41 @@ class WikiWPage extends \PhpTags\GenericObject {
 			}
 		}
 		if ( $titleCategory ) {
-			$parser = \PhpTags\Runtime::getParser();
-			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $parser->getDefaultSort() );
+			$parser = \PhpTags\Runtime::$parser;
+			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $sortkey === '' ? $parser->getDefaultSort() : $sortkey );
 			return true;
 		} else {
-			\PhpTags\Runtime::$transit[PHPTAGS_TRANSIT_EXCEPTION][] = new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::addCategory() \"$category\" is not a valid title!" );
+			\PhpTags\Runtime::pushException( new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::addCategory() \"$category\" is not a valid title!" ) );
 			return false;
 		}
+	}
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_ID() {
+		return self::c_ID();
+	}
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_TITLE() {
+		return self::c_TITLE();
+	}
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function q_DEFAULT_SORT_KEY() {
+		return self::q_defaultSortKey();
+	}
+
+	/**
+	 * @deprecated since version 2.0.0
+	 */
+	public static function d_DEFAULT_SORT_KEY( $value ) {
+		self::d_defaultSortKey( $value );
 	}
 
 }
