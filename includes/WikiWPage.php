@@ -49,11 +49,11 @@ class WikiWPage extends \PhpTags\GenericObject {
 		\PhpTags\Runtime::$parser->setDefaultSort( $value );
 	}
 
-	public static function s_AddCategory( $category, $sortkey = '' ) {
+	public static function s_addCategory( $category, $sortkey = '' ) {
 		if ( is_array( $category ) ) {
 			$return = true;
 			foreach ( $category as $c ) {
-				$return = self::s_AddCategory( $c ) && $return;
+				$return = self::s_addCategory( $c ) && $return;
 			}
 			return $return;
 		}
@@ -80,28 +80,14 @@ class WikiWPage extends \PhpTags\GenericObject {
 	}
 
 	/**
-	 * @deprecated since version 2.0.0
-	 */
-	public static function q_ID() {
-		return self::c_ID();
-	}
-
-	/**
-	 * @deprecated since version 2.0.0
-	 */
-	public static function q_TITLE() {
-		return self::c_TITLE();
-	}
-
-	/**
-	 * @deprecated since version 2.0.0
+	 * @deprecated since version 1.6.0
 	 */
 	public static function q_DEFAULT_SORT_KEY() {
 		return self::q_defaultSortKey();
 	}
 
 	/**
-	 * @deprecated since version 2.0.0
+	 * @deprecated since version 1.6.0
 	 */
 	public static function d_DEFAULT_SORT_KEY( $value ) {
 		self::d_defaultSortKey( $value );

@@ -56,15 +56,13 @@
 				}
 			},
 			"CONSTANTS": {
-				"cacheTime": {
+				"CACHE_TIME": {
 					"type": "DateTime",
-					"desc": "Time when current page was generated",
-					"readonly": 1
+					"desc": "Time when current page was generated"
 				},
-				"cacheTimeString": {
+				"CACHE_TIME_STRING": {
 					"type": "string",
-					"desc": "Time when current page was generated",
-					"readonly": 1
+					"desc": "Time when current page was generated"
 				}
 			}
 		},
@@ -137,7 +135,7 @@
 				},
 				"DEFAULT_SORT_KEY": {
 					"type": "string",
-					"desc": "Depricated, pliase use defaultSortKey static property!!!"
+					"desc": "Deprecated, please use defaultSortKey static property!!!"
 				}
 			},
 			"CONSTANTS": {
@@ -276,7 +274,7 @@
 				},
 				"isMainPage": {
 					"type": "bool",
-					"desc": "Is this the mainpage?",
+					"desc": "Is this the main page?",
 					"readonly": 1
 				}
 			},
@@ -344,7 +342,7 @@
 				},
 				"IS_MAIN_PAGE": {
 					"type": "bool",
-					"desc": "Is current the mainpage?"
+					"desc": "Is current page the main page?"
 				}
 			}
 		}

@@ -46,7 +46,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	public static function c_CACHE_TIME() {
 		return \PhpTags\Hooks::getObjectWithValue(
 				'DateTime',
-				new \DateTime( self::q_CACHE_TIME_STRING() )
+				new \DateTime( self::c_CACHE_TIME_STRING() )
 			);
 	}
 

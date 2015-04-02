@@ -15,7 +15,7 @@ if ( !defined('MEDIAWIKI') ) {
 	die( 'This file is an extension to MediaWiki and thus not a valid entry point.' );
 }
 
-define( 'PHPTAGS_WIKI_VERSION' , '1.6.0' );
+define( 'PHPTAGS_WIKI_VERSION' , '1.6.1' );
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(
@@ -24,7 +24,8 @@ $wgExtensionCredits['phptags'][] = array(
 	'version'			=> PHPTAGS_WIKI_VERSION,
 	'url'				=> 'https://www.mediawiki.org/wiki/Extension:PhpTags_Wiki',
 	'author'			=> '[https://www.mediawiki.org/wiki/User:Pastakhov Pavel Astakhov]',
-	'descriptionmsg'	=> 'phptagswiki-desc'
+	'descriptionmsg'	=> 'phptagswiki-desc',
+	'license-name'		=> 'GPL-2.0+',
 );
 
 // Allow translations for this extension
