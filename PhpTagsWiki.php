@@ -15,7 +15,7 @@ if ( !defined('MEDIAWIKI') ) {
 	die( 'This file is an extension to MediaWiki and thus not a valid entry point.' );
 }
 
-define( 'PHPTAGS_WIKI_VERSION' , '1.6.1' );
+define( 'PHPTAGS_WIKI_VERSION' , '1.6.2' );
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(
@@ -30,7 +30,6 @@ $wgExtensionCredits['phptags'][] = array(
 
 // Allow translations for this extension
 $wgMessagesDirs['PhpTagsWiki'] =			__DIR__ . '/i18n';
-$wgExtensionMessagesFiles['PhpTagsWiki'] =	__DIR__ . '/PhpTagsWiki.i18n.php';
 
 /**
  * @codeCoverageIgnore
