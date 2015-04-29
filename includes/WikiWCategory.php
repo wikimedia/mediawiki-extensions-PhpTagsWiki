@@ -10,11 +10,11 @@ class WikiWCategory extends \PhpTags\GenericObject {
 
 	private static $cache = array();
 
-	public function __construct( $name, $value = null ) {
+	public function __construct( $objectName, $objectKey, $value = null ) {
 		if ( false === $value instanceof \Category ) {
 			$value = null;
 		}
-		parent::__construct( $name, $value );
+		parent::__construct( $objectName, $objectKey, $value );
 	}
 
 	public function m___construct( $name = null ) {
@@ -37,7 +37,7 @@ class WikiWCategory extends \PhpTags\GenericObject {
 			if ( isset( self::$cache[$dbkey] ) ) {
 				$this->value = self::$cache[$dbkey];
 			} else {
-				\PhpTags\Runtime::incrementExpensiveFunctionCount( "{$this->name}::__construct()" );
+				\PhpTags\Runtime::incrementExpensiveFunctionCount( "{$this->objectName}::__construct()" );
 				self::$cache[$dbkey] = $category;
 				$this->value = $category;
 			}

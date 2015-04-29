@@ -125,6 +125,7 @@
 						{ "type": "string", "name": "sortkey", "default": "" }
 					],
 					"return": "void",
+					"onfailure": "false",
 					"desc": "Add current page to specified category"
 				}
 			},
