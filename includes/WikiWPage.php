@@ -74,8 +74,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $sortkey === '' ? $parser->getDefaultSort() : $sortkey );
 			return true;
 		} else {
-			\PhpTags\Runtime::pushException( new \PhpTags\HookException( \PhpTags\HookException::EXCEPTION_NOTICE, \PhpTags\Hooks::$objectName . "::addCategory() \"$category\" is not a valid title!" ) );
-			return false;
+			throw new \PhpTags\HookException( "'$category' is not a valid title!" );
 		}
 	}
 

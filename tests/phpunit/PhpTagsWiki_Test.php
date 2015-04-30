@@ -17,4 +17,25 @@ class PhpTagsWiki_Test extends \PHPUnit_Framework_TestCase {
 				);
 	}
 
+	public function testRun_Constant_with_created_object() {
+		$this->assertEquals(
+				Runtime::runSource( '$obect = new WTitle( "zzzz" ); echo $obect::UNDEFINED_CONST;', array('test'), 1 ),
+				array( '<span class="error">PhpTags Notice:  Undefined class constant: WTitle::UNDEFINED_CONST in test on line 1</span><br />', '' )
+				);
+	}
+
+	public function testRun_get_static_property_from_created_object() {
+		$this->assertEquals(
+				Runtime::runSource( '$obect = new WTitle( "zzzz" ); echo $obect::$undeclaredStaticProperty;', array('test'), 1 ),
+				array( '<span class="error">PhpTags Fatal error:  Access to undeclared static property: WTitle::$undeclaredStaticProperty in test on line 1</span><br />' )
+				);
+	}
+
+	public function testRun_set_static_property_from_created_object() {
+		$this->assertEquals(
+				Runtime::runSource( '$obect = new WTitle( "zzzz" ); $obect::$undeclaredStaticProperty = "value";', array('test'), 1 ),
+				array( '<span class="error">PhpTags Fatal error:  Access to undeclared static property: WTitle::$undeclaredStaticProperty in test on line 1</span><br />' )
+				);
+	}
+
 }
