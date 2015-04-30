@@ -12,12 +12,21 @@ class PhpTagsWikiInit {
 	}
 
 	public static function initializeConstants() {
-		// Add all defined namespace constants (that starts with 'NS_')
-		$phpConsts = get_defined_constants( true );
-		$ns_keys = array_filter( array_keys( $phpConsts['user'] ), function( $key ){ return substr( $key, 0, 3 ) === "NS_"; } );
-		$ns_consts = array_intersect_key( $phpConsts['user'], array_flip($ns_keys) );
-		array_walk( $ns_consts, function(&$value){ $value = (int)$value; } ); // save NS_SQL_PASSWORD or NS_MY_CREDIT_CARD :)
-		return $ns_consts;
+		// Add all defined namespace constants, which either
+		// start with 'NS_' or have '_NS_' in their names
+		$phpConstants = get_defined_constants( true );
+		$nsConstants = array();
+		foreach ( $phpConstants['user'] as $key => $value ) {
+			if ( !is_int( $value ) ) {
+				continue;
+			}
+			$pos = strpos( $key, 'NS_' );
+			if ( $pos === false || ( $pos > 0 && $key[$pos - 1] !== '_' ) ) {
+				continue;
+			}
+			$nsConstants[$key] = $value;
+		}
+		return $nsConstants;
 	}
 
 }
