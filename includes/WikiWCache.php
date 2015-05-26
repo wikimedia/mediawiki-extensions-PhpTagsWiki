@@ -12,7 +12,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * Set a flag in this page indicating that the content is dynamic and shouldn't be cached.
 	 */
 	public static function s_disableCache() {
-		\PhpTags\Runtime::disableParserCache();
+		\PhpTags\Renderer::disableParserCache();
 	}
 
 	/**
@@ -20,7 +20,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @return int
 	 */
 	public static function q_cacheExpiry() {
-		return \PhpTags\Runtime::$parser->getOutput()->getCacheExpiry();
+		return \PhpTags\Renderer::getParser()->getOutput()->getCacheExpiry();
 	}
 
 	/**
@@ -28,7 +28,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @param int $value
 	 */
 	public static function d_cacheExpiry( $value ) {
-		\PhpTags\Runtime::$parser->getOutput()->updateCacheExpiry( $value );
+		\PhpTags\Renderer::getParser()->getOutput()->updateCacheExpiry( $value );
 	}
 
 	/**
@@ -36,7 +36,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @return string
 	 */
 	public static function c_CACHE_TIME_STRING() {
-		return \PhpTags\Runtime::$parser->getOutput()->getCacheTime();
+		return \PhpTags\Renderer::getParser()->getOutput()->getCacheTime();
 	}
 
 	/**

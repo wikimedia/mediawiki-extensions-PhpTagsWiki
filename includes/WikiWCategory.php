@@ -37,7 +37,7 @@ class WikiWCategory extends \PhpTags\GenericObject {
 			if ( isset( self::$cache[$dbkey] ) ) {
 				$this->value = self::$cache[$dbkey];
 			} else {
-				\PhpTags\Runtime::incrementExpensiveFunctionCount( "{$this->objectName}::__construct()" );
+				\PhpTags\Renderer::incrementExpensiveFunctionCount();
 				self::$cache[$dbkey] = $category;
 				$this->value = $category;
 			}
