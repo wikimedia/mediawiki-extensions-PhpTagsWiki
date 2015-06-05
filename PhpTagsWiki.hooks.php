@@ -17,14 +17,14 @@ class PhpTagsWikiHooks {
 	 */
 	public static function onParserFirstCallInit() {
 		if ( !defined( 'PHPTAGS_VERSION' ) ) {
-			throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Functions extension." );
+			throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Wiki extension." );
 		}
-		$needVersion = '5.1.0';
+		$needVersion = '5.1.2';
 		if ( version_compare( PHPTAGS_VERSION, $needVersion, '<' ) ) {
-			throw new MWException( "\n\nThis version of the PhpTags Functions extension requires the PhpTags extension $needVersion or above.\n You have " . PHPTAGS_VERSION . ". Please update it." );
+			throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $needVersion or above.\n You have " . PHPTAGS_VERSION . ". Please update it." );
 		}
 		if ( PHPTAGS_HOOK_RELEASE != 8 ) {
-			throw new MWException( "\n\nThis version of the PhpTags Functions extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
+			throw new MWException( "\n\nThis version of the PhpTags Wiki extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
 		}
 		return true;
 	}
