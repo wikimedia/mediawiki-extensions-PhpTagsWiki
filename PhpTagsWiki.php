@@ -15,7 +15,7 @@ if ( !defined('MEDIAWIKI') ) {
 	die( 'This file is an extension to MediaWiki and thus not a valid entry point.' );
 }
 
-const PHPTAGS_WIKI_VERSION = '1.6.5';
+const PHPTAGS_WIKI_VERSION = '1.6.6';
 
 // Register this extension on Special:Version
 $wgExtensionCredits['phptags'][] = array(
@@ -29,54 +29,26 @@ $wgExtensionCredits['phptags'][] = array(
 );
 
 // Allow translations for this extension
-$wgMessagesDirs['PhpTagsWiki'] =			__DIR__ . '/i18n';
+$wgMessagesDirs['PhpTagsWiki'] = __DIR__ . '/i18n';
 
-/**
- * @codeCoverageIgnore
- */
-$wgHooks['ParserFirstCallInit'][] = function() {
-	if ( !defined( 'PHPTAGS_VERSION' ) ) {
-	throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Wiki extension." );
-	}
-	$needVersion = '5.1.0';
-	if ( version_compare( PHPTAGS_VERSION, $needVersion, '<' ) ) {
-		throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $needVersion or above.\n You have " . PHPTAGS_VERSION . ". Please update it." );
-	}
-	if ( PHPTAGS_HOOK_RELEASE != 8 ) {
-		throw new MWException( "\n\nThis version of the PhpTags Wiki extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
-	}
-	return true;
-};
+//
+$wgHooks['ParserFirstCallInit'][] = 'PhpTagsWikiHooks::onParserFirstCallInit';
+$wgHooks['PhpTagsRuntimeFirstInit'][] = 'PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit';
+$wgHooks['UnitTestsList'][] = 'PhpTagsWikiHooks::onUnitTestsList';
 
-/**
- * @codeCoverageIgnore
- */
-$wgHooks['PhpTagsRuntimeFirstInit'][] = 'PhpTagsWikiInit::initializeRuntime';
+// add parser tests
+$wgParserTestFiles[] = __DIR__ . '/tests/parser/PhpTagsWikiTests.txt';
 
 // Preparing classes for autoloading
-$wgAutoloadClasses['PhpTagsWikiInit']	= __DIR__ . '/PhpTagsWiki.init.php';
+$wgAutoloadClasses['PhpTagsWikiHooks'] = __DIR__ . '/PhpTagsWiki.hooks.php';
 
 //$wgAutoloadClasses['PhpTagsObjects\\WikiQuery']			= __DIR__ . '/includes/WikiQuery.php';
 //$wgAutoloadClasses['PhpTagsObjects\\WikiQCondition']	= __DIR__ . '/includes/WikiQCondition.php';
 //$wgAutoloadClasses['PhpTagsObjects\\WikiQResult']		= __DIR__ . '/includes/WikiQResult.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiW']				= __DIR__ . '/includes/WikiW.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWCache']		= __DIR__ . '/includes/WikiWCache.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWCategory']		= __DIR__ . '/includes/WikiWCategory.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWPage']			= __DIR__ . '/includes/WikiWPage.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWStats']		= __DIR__ . '/includes/WikiWStats.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWTitle']		= __DIR__ . '/includes/WikiWTitle.php';
-$wgAutoloadClasses['PhpTagsObjects\\WikiWTitleArray']	= __DIR__ . '/includes/WikiWTitleArray.php';
-
-/**
- * Add files to phpunit test
- * @codeCoverageIgnore
- */
-$wgHooks['UnitTestsList'][] = function ( &$files ) {
-	$testDir = __DIR__ . '/tests/phpunit';
-	$files = array_merge( $files, glob( "$testDir/*Test.php" ) );
-	return true;
-};
-
-$wgParserTestFiles[] = __DIR__ . '/tests/parser/PhpTagsWikiTests.txt';
-
-$wgPhpTagsQueryLimit = 200;
+$wgAutoloadClasses['PhpTagsObjects\\WikiW'] = __DIR__ . '/includes/WikiW.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWCache'] = __DIR__ . '/includes/WikiWCache.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWCategory'] = __DIR__ . '/includes/WikiWCategory.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWPage'] = __DIR__ . '/includes/WikiWPage.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWStats'] = __DIR__ . '/includes/WikiWStats.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWTitle'] = __DIR__ . '/includes/WikiWTitle.php';
+$wgAutoloadClasses['PhpTagsObjects\\WikiWTitleArray'] = __DIR__ . '/includes/WikiWTitleArray.php';
