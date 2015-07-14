@@ -277,6 +277,11 @@
 					"type": "bool",
 					"desc": "Is this the main page?",
 					"readonly": 1
+				},
+				"ID": {
+					"type": "int",
+					"desc": "Article ID",
+					"readonly": 1
 				}
 			},
 			"CONSTANTS": {
@@ -344,6 +349,10 @@
 				"IS_MAIN_PAGE": {
 					"type": "bool",
 					"desc": "Is current page the main page?"
+				},
+				"ID": {
+					"type": "int",
+					"desc": "Article ID of current page"
 				}
 			}
 		}
