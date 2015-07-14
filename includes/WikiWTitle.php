@@ -27,6 +27,8 @@ class WikiWTitle extends \PhpTags\GenericObject {
 			}
 		} elseif ( true === is_string( $name ) && true === is_numeric( $namespace) ) {
 			$title = \Title::newFromText( $name, $namespace );
+		} elseif ( is_numeric( $name ) && $name > 0 ) {
+			$title = \Title::newFromID( $name );
 		}
 
 		if ( $title instanceof \Title ) {
@@ -142,6 +144,13 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return $title->isMainPage();
 	}
 
+	public static function c_ID( $title = null ) {
+		if ( false === $title instanceof \Title ) {
+			$title = \PhpTags\Renderer::getParser()->getTitle();
+		}
+		return $title->getArticleID();
+	}
+
 	public function p_nsText() {
 		return self::c_NS_TEXT( $this->value );
 	}
@@ -196,6 +205,10 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public function p_isMainPage() {
 		return self::c_IS_MAIN_PAGE( $this->value );
+	}
+
+	public function p_ID() {
+		return self::c_ID( $this->value );
 	}
 
 }

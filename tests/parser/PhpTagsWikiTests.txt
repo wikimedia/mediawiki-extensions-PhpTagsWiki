@@ -135,3 +135,28 @@ WPage::addCategory WCategory bar
 <phptag> WPage::addCategory( new WCategory( 'bar' ) ); </phptag>
 !! result
 !! end
+
+!! article
+WTitle ID
+!! text
+<phptag>
+if ( WTitle::ID > 0 ) { echo 'pass WTitle::ID', "\n\n"; }
+$t = new WTitle('Test pages', NS_CATEGORY); if ( $t->ID > 0 && $t->ID != WTitle::ID ) { echo 'pass WTitle->ID', "\n\n"; }
+</phptag>
+!! endarticle
+
+!! test
+Test WTitle ID
+!! input
+<phptag>
+$t1 = new WTitle( 'Test pages', NS_CATEGORY );
+$t2 = new WTitle( 'Category:Test pages' );
+if ( $t1->ID > 0 ) { echo 'pass1, it is ok', "\n\n"; }
+if ( $t1->ID == $t2->ID ) { echo 'pass2, it is ok', "\n\n"; }
+</phptag>
+!! result
+<p>pass1, it is ok
+</p><p>pass2, it is ok
+</p><p><br />
+</p>
+!! end
