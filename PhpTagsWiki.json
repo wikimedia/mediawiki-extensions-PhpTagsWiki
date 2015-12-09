@@ -200,7 +200,7 @@
 			"METHODS": {
 				"__construct" : {
 					"parameters": [
-						{ "type": "string", "name": "name" },
+						{ "type": "mixed", "name": "name" },
 						{ "type": "int", "name": "namespace", "default": "NS_MAIN" }
 					],
 					"return": "WTitle",
@@ -282,6 +282,11 @@
 					"type": "int",
 					"desc": "Article ID",
 					"readonly": 1
+				},
+				"DBKey": {
+					"type": "string",
+					"desc": "Article DB Key (main part of page name with underscores)",
+					"readonly": 1
 				}
 			},
 			"CONSTANTS": {
@@ -353,6 +358,10 @@
 				"ID": {
 					"type": "int",
 					"desc": "Article ID of current page"
+				},
+				"DB_KEY": {
+					"type": "string",
+					"desc": "Article DB Key (main part of current page name with underscores)"
 				}
 			}
 		}

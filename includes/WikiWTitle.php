@@ -8,6 +8,14 @@ namespace PhpTagsObjects;
  */
 class WikiWTitle extends \PhpTags\GenericObject {
 
+	/**
+	 * Returns Parser Title object
+	 * @return \Title
+	 */
+	private static function getParserTitle() {
+		return \PhpTags\Renderer::getParser()->getTitle();
+	}
+
 	public function __toString() {
 		return $this->toString();
 	}
@@ -25,7 +33,7 @@ class WikiWTitle extends \PhpTags\GenericObject {
 			} elseif ( $value instanceof \Category ) {
 				$title = $value->getTitle();
 			}
-		} elseif ( true === is_string( $name ) && true === is_numeric( $namespace) ) {
+		} elseif ( is_string( $name ) && is_numeric( $namespace) ) {
 			$title = \Title::newFromText( $name, $namespace );
 		} elseif ( is_numeric( $name ) && $name > 0 ) {
 			$title = \Title::newFromID( $name );
@@ -41,21 +49,21 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getNsText();
 	}
 
 	public static function c_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getNamespace();
 	}
 
 	public static function c_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getText();
 	}
@@ -67,42 +75,42 @@ class WikiWTitle extends \PhpTags\GenericObject {
 	 */
 	public static function c_FULL_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getPrefixedText();
 	}
 
 	public static function c_BASE_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getBaseText();
 	}
 
 	public static function c_SUBPAGE_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getSubpageText();
 	}
 
 	public static function c_ROOT_NAME( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getRootText();
 	}
 
 	public static function c_SUBJECT_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getSubjectNsText();
 	}
 
 	public static function c_SUBJECT_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		$namespace = $title->getNamespace();
 		return \MWNamespace::getSubject( $namespace );
@@ -110,14 +118,14 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_TALK_NS_TEXT( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getTalkNsText();
 	}
 
 	public static function c_TALK_NS_NUMBER( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		$namespace = $title->getNamespace();
 		return \MWNamespace::getTalk( $namespace );
@@ -125,30 +133,37 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public static function c_IS_CONTENT_PAGE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->isContentPage();
 	}
 
 	public static function c_IS_MOVABLE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->isMovable();
 	}
 
 	public static function c_IS_MAIN_PAGE( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->isMainPage();
 	}
 
 	public static function c_ID( $title = null ) {
 		if ( false === $title instanceof \Title ) {
-			$title = \PhpTags\Renderer::getParser()->getTitle();
+			$title = self::getParserTitle();
 		}
 		return $title->getArticleID();
+	}
+
+	public static function c_DB_KEY( $title = null ) {
+		if ( false === $title instanceof \Title ) {
+			$title = self::getParserTitle();
+		}
+		return $title->getDBkey();
 	}
 
 	public function p_nsText() {
@@ -209,6 +224,10 @@ class WikiWTitle extends \PhpTags\GenericObject {
 
 	public function p_ID() {
 		return self::c_ID( $this->value );
+	}
+
+	public function p_DBKey() {
+		return self::c_DB_KEY( $this->value );
 	}
 
 }
