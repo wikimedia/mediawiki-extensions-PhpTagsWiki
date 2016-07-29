@@ -201,7 +201,8 @@
 				"__construct" : {
 					"parameters": [
 						{ "type": "mixed", "name": "name" },
-						{ "type": "int", "name": "namespace", "default": "NS_MAIN" }
+						{ "type": "int", "name": "namespace", "default": "NS_MAIN" },
+						{ "type": "string", "name": "fragment", "default": "" }
 					],
 					"return": "WTitle",
 					"desc": "Returns new WTitle object"
@@ -369,6 +370,7 @@
 	"constants": {
 		"PHPTAGS_WIKI_VERSION" : {
 			"desc": "The current version of the PhpTags Wiki extension as a string",
+			"class": "WikiW",
 			"type": "string",
 			"example": "3.1.7",
 			"link": "https://www.mediawiki.org/wiki/Extension:PhpTags_Wiki"

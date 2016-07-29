@@ -1,0 +1,33 @@
+{
+	"name": "PhpTags Wiki",
+	"version": "1.6.10",
+	"author": "[https://www.mediawiki.org/wiki/User:Pastakhov Pavel Astakhov]",
+	"url": "https://www.mediawiki.org/wiki/Extension:PhpTags_Wiki",
+	"descriptionmsg": "phptagswiki-desc",
+	"license-name": "GPL-2.0+",
+	"type": "phptags",
+	"MessagesDirs": {
+		"PhpTagsWiki": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"PhpTagsWikiHooks": "PhpTagsWiki.hooks.php",
+		"PhpTagsObjects\\WikiW": "includes/WikiW.php",
+		"PhpTagsObjects\\WikiWCache": "includes/WikiWCache.php",
+		"PhpTagsObjects\\WikiWCategory": "includes/WikiWCategory.php",
+		"PhpTagsObjects\\WikiWPage": "includes/WikiWPage.php",
+		"PhpTagsObjects\\WikiWStats": "includes/WikiWStats.php",
+		"PhpTagsObjects\\WikiWTitle": "includes/WikiWTitle.php",
+		"PhpTagsObjects\\WikiWTitleArray": "includes/WikiWTitleArray.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "PhpTagsWikiHooks::onParserFirstCallInit",
+		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit",
+		"UnitTestsList": "PhpTagsWikiHooks::onUnitTestsList"
+	},
+	"ParserTestFiles": [
+		"tests/parser/PhpTagsWikiTests.txt"
+	],
+	"manifest_version": 1
+}

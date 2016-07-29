@@ -10,6 +10,13 @@ class PhpTagsWiki_Test extends \PHPUnit_Framework_TestCase {
 				);
 	}
 
+	public function testRun_constant_1() {
+		$this->assertEquals(
+				Runtime::runSource('echo PHPTAGS_WIKI_VERSION;'),
+				array( \ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'] )
+			);
+	}
+
 	public function testRun_NS_CATEGORY_constant() {
 		$this->assertEquals(
 				Runtime::runSource('echo NS_CATEGORY;'),

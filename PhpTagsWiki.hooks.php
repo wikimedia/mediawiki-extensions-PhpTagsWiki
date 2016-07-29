@@ -12,18 +12,24 @@
 class PhpTagsWikiHooks {
 
 	/**
-	 *
+	 * Check on version compatibility
 	 * @return boolean
 	 */
 	public static function onParserFirstCallInit() {
-		if ( !defined( 'PHPTAGS_VERSION' ) ) {
+		$extRegistry = ExtensionRegistry::getInstance();
+		$phpTagsLoaded = $extRegistry->isLoaded( 'PhpTags' );
+		//if ( !$extRegistry->isLoaded( 'PhpTags' ) ) { use PHPTAGS_VERSION for backward compatibility
+		if ( !($phpTagsLoaded || defined( 'PHPTAGS_VERSION' )) ) {
 			throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Wiki extension." );
 		}
-		$needVersion = '5.1.2';
-		if ( version_compare( PHPTAGS_VERSION, $needVersion, '<' ) ) {
-			throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $needVersion or above.\n You have " . PHPTAGS_VERSION . ". Please update it." );
+		if ( $phpTagsLoaded ) {
+			$neededVersion = '5.8.0';
+			$phpTagsVersion = $extRegistry->getAllThings()['PhpTags']['version'];
+			if ( version_compare( $phpTagsVersion, $neededVersion, '<' ) ) {
+				throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $neededVersion or above.\n You have $phpTagsVersion. Please update it." );
+			}
 		}
-		if ( PHPTAGS_HOOK_RELEASE != 8 ) {
+		if ( !$phpTagsLoaded || PHPTAGS_HOOK_RELEASE != 8 ) {
 			throw new MWException( "\n\nThis version of the PhpTags Wiki extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
 		}
 		return true;
@@ -36,9 +42,9 @@ class PhpTagsWikiHooks {
 	public static function onPhpTagsRuntimeFirstInit() {
 		global $wgCacheEpoch;
 
-		\PhpTags\Hooks::addJsonFile( __DIR__ . '/PhpTagsWiki.json', PHPTAGS_WIKI_VERSION );
-		\PhpTags\Hooks::addCallbackConstantValues( 'PhpTagsWikiHooks::initializeConstants', PHPTAGS_WIKI_VERSION . $wgCacheEpoch );
-
+		$version = ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'];
+		\PhpTags\Hooks::addJsonFile( __DIR__ . '/PhpTagsWiki.json', $version );
+		\PhpTags\Hooks::addCallbackConstantValues( 'PhpTagsWikiHooks::initializeConstants', $version . $wgCacheEpoch );
 		return true;
 	}
 

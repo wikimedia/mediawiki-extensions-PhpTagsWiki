@@ -8,6 +8,14 @@ namespace PhpTagsObjects;
  */
 class WikiW extends \PhpTags\GenericObject {
 
+	public static function getConstantValue( $constantName ) {
+		switch ( $constantName ) {
+			case 'PHPTAGS_WIKI_VERSION':
+				return \ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'];
+		}
+		parent::getConstantValue( $constantName );
+	}
+
 	public static function c_CONTENT_LANGUAGE() {
 		global $wgLanguageCode;
 		return $wgLanguageCode;
