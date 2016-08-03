@@ -198,7 +198,7 @@
 		"WTitle": {
 			"class": "WikiWTitle",
 			"METHODS": {
-				"__construct" : {
+				"__construct": {
 					"parameters": [
 						{ "type": "mixed", "name": "name" },
 						{ "type": "int", "name": "namespace", "default": "NS_MAIN" },
@@ -206,6 +206,13 @@
 					],
 					"return": "WTitle",
 					"desc": "Returns new WTitle object"
+				},
+				"fullUrl": {
+					"parameters": [
+						{ "type": "array", "name": "query", "default": "" }
+					],
+					"return": "string",
+					"desc": "Get a real URL referring to this title"
 				}
 			},
 			"PROPERTIES": {

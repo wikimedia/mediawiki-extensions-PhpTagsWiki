@@ -24,7 +24,7 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		return $this->p_fullName();
 	}
 
-	public function m___construct( $name, $namespace = NS_MAIN ) {
+	public function m___construct( $name, $namespace = NS_MAIN, $fragment = '' ) {
 		$title = null;
 		if ( $name instanceof \PhpTags\GenericObject ) {
 			$value = $name->getValue();
@@ -40,11 +40,21 @@ class WikiWTitle extends \PhpTags\GenericObject {
 		}
 
 		if ( $title instanceof \Title ) {
+			if ( $fragment ) {
+				$title = \Title::makeTitleSafe( $title->getNamespace(), $title->getDBkey(), $fragment );
+			}
 			$this->value = $title;
 			return true;
 		}
 		$this->value = null;
 		return false;
+	}
+
+	public function m_fullUrl( $query = [] ) {
+		$title = $this->value;
+		if ( $title instanceof \Title ) {
+			return $title->getInternalURL( $query );
+		}
 	}
 
 	public static function c_NS_TEXT( $title = null ) {

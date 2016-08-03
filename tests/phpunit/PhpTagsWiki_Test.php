@@ -45,4 +45,20 @@ class PhpTagsWiki_Test extends \PHPUnit_Framework_TestCase {
 				);
 	}
 
+	public function testRun_Title_fullUrl_1() {
+		$title = \Title::makeTitleSafe( NS_MAIN, 'Test page' );
+		$this->assertEquals(
+				Runtime::runSource('$title = new WTitle( "Test page" ); echo $title->fullURL();'),
+				array( $title->getFullURL() )
+			);
+	}
+
+	public function testRun_Title_fullUrl_2() {
+		$title = \Title::makeTitleSafe( NS_MAIN, 'Test page' );
+		$this->assertEquals(
+				Runtime::runSource('$title = new WTitle( "Test page" ); echo $title->fullURL( ["action"=>"edit"] );'),
+				array( $title->getFullURL( array('action'=>'edit') ) )
+			);
+	}
+
 }
