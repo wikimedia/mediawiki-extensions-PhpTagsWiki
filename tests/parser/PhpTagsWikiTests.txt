@@ -83,6 +83,8 @@ WPage::TITLE->talkNsText
 
 !! test
 WCategory->pageCount Test pages
+!! options
+disabled MediaWiki core uses a dummy parser when inserting articles. T163733
 !! input
 <phptag>
 $c = new WCategory( 'Test pages' );
@@ -95,6 +97,8 @@ echo $c->pageCount;
 
 !! test
 WCategory->subcatCount
+!! options
+disabled MediaWiki core uses a dummy parser when inserting articles. T163733
 !! input
 <phptag>
 $c = new WCategory( 'Test categories' );
