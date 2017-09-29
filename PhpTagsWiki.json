@@ -13,6 +13,10 @@
 					"desc": "The MediaWiki version with SVN revision if available",
 					"MW": "CURRENTVERSION"
 				},
+				"MAIN_PAGE": {
+					"type": "WTitle",
+					"desc": "Returns WTitle object for the Main Page"
+				},
 				"SERVER": {
 					"type": "string",
 					"desc": "The base URL of the server ($wgServer)",

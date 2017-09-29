@@ -55,5 +55,12 @@ class WikiW extends \PhpTags\GenericObject {
 		return $wgStylePath;
 	}
 
+	public static function c_MAIN_PAGE() {
+		return \PhpTags\Hooks::getObjectWithValue(
+				'WTitle',
+				\Title::newMainPage()
+			);
+	}
+
 }
 

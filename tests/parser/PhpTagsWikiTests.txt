@@ -164,3 +164,14 @@ if ( $t1->ID == $t2->ID ) { echo 'pass2, it is ok', "\n\n"; }
 </p><p><br />
 </p>
 !! end
+
+!! test
+Test W::MAIN_PAGE
+!! input
+<phptag>
+echo W::MAIN_PAGE;
+</phptag>
+!! result
+<p>Main Page
+</p>
+!! end
