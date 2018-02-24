@@ -1,7 +1,7 @@
 <?php
 namespace PhpTags;
 
-class PhpTagsWiki_Test extends \PHPUnit_Framework_TestCase {
+class PhpTagsWiki_Test extends \PHPUnit\Framework\TestCase {
 
 	public function testRun_NS_FILE_constant() {
 		$this->assertEquals(
