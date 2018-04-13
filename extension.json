@@ -26,8 +26,5 @@
 		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit",
 		"UnitTestsList": "PhpTagsWikiHooks::onUnitTestsList"
 	},
-	"ParserTestFiles": [
-		"tests/parser/PhpTagsWikiTests.txt"
-	],
 	"manifest_version": 1
 }
