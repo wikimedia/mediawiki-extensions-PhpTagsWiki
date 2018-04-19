@@ -23,8 +23,7 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PhpTagsWikiHooks::onParserFirstCallInit",
-		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit",
-		"UnitTestsList": "PhpTagsWikiHooks::onUnitTestsList"
+		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit"
 	},
 	"manifest_version": 1
 }
