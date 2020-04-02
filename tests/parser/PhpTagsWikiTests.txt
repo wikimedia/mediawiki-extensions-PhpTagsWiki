@@ -1,3 +1,5 @@
+!! Version 2
+
 !! article
 Main Page
 !! text
@@ -33,18 +35,20 @@ Test default sort key
 
 !! test
 WStats::USERS
-!! input
+!! options
+disabled
+!! wikitext
 <phptag> echo WStats::USERS > 0 ? 'true' : 'false'; </phptag>
-!! result
+!! html
 <p>true
 </p>
 !! end
 
 !! test
 WStats::PAGES
-!! input
+!! wikitext
 <phptag> echo WStats::PAGES > 0 ? 'true' : 'false'; </phptag>
-!! result
+!! html
 <p>true
 </p>
 !! end
@@ -53,9 +57,9 @@ WStats::PAGES
 WPage::TITLE
 !! options
 title=[[User:Ævar Arnfjörð Bjarmason]]
-!! input
+!! wikitext
 {{#phptag: WPage::TITLE }}
-!! result
+!! html
 <p>User:Ævar Arnfjörð Bjarmason
 </p>
 !! end
@@ -65,51 +69,51 @@ title=[[User:Ævar Arnfjörð Bjarmason]]
 WPage::TITLE->name
 !! options
 title=[[User:Ævar Arnfjörð Bjarmason]]
-!! input
+!! wikitext
 {{#phptag: WPage::TITLE->name }}
-!! result
+!! html
 <p>Ævar Arnfjörð Bjarmason
 </p>
 !! end
 
 !! test
 WPage::TITLE->talkNsText
-!! input
+!! wikitext
 {{#phptag: WPage::TITLE->talkNsText }}
-!! result
+!! html
 <p>Talk
 </p>
 !! end
 
 !! test
 WCategory->pageCount Test pages
-!! input
+!! wikitext
 <phptag>
 $c = new WCategory( 'Test pages' );
 echo $c->pageCount;
 </phptag>
-!! result
+!! html
 <p>4
 </p>
 !! end
 
 !! test
 WCategory->subcatCount
-!! input
+!! wikitext
 <phptag>
 $c = new WCategory( 'Test categories' );
 echo $c->subcatCount;
 </phptag>
-!! result
+!! html
 <p>1
 </p>
 !! end
 
 !! test
 Test default sort key
-!! input
+!! wikitext
 {{:Test default sort key}}
-!! result
+!! html
 <p>false
 true
 </p>
@@ -117,23 +121,23 @@ true
 
 !! test
 WPage::addCategory foo
-!! input
+!! wikitext
 <phptag> WPage::addCategory( 'Foo' ); </phptag>
-!! result
+!! html
 !! end
 
 !! test
 WPage::addCategory foo bar
-!! input
+!! wikitext
 <phptag> WPage::addCategory( ['foo', 'bar'] ); </phptag>
-!! result
+!! html
 !! end
 
 !! test
 WPage::addCategory WCategory bar
-!! input
+!! wikitext
 <phptag> WPage::addCategory( new WCategory( 'bar' ) ); </phptag>
-!! result
+!! html
 !! end
 
 !! article
@@ -147,14 +151,14 @@ $t = new WTitle('Test pages', NS_CATEGORY); if ( $t->ID > 0 && $t->ID != WTitle:
 
 !! test
 Test WTitle ID
-!! input
+!! wikitext
 <phptag>
 $t1 = new WTitle( 'Test pages', NS_CATEGORY );
 $t2 = new WTitle( 'Category:Test pages' );
 if ( $t1->ID > 0 ) { echo 'pass1, it is ok', "\n\n"; }
 if ( $t1->ID == $t2->ID ) { echo 'pass2, it is ok', "\n\n"; }
 </phptag>
-!! result
+!! html
 <p>pass1, it is ok
 </p><p>pass2, it is ok
 </p><p><br />
@@ -163,11 +167,11 @@ if ( $t1->ID == $t2->ID ) { echo 'pass2, it is ok', "\n\n"; }
 
 !! test
 Test W::MAIN_PAGE
-!! input
+!! wikitext
 <phptag>
 echo W::MAIN_PAGE;
 </phptag>
-!! result
+!! html
 <p>Main Page
 </p>
 !! end
