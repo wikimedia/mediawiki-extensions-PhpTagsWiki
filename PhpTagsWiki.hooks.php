@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+use PhpTagsWiki\Extract;
 
 /**
  * PhpTags Wiki MediaWiki Hooks.
@@ -14,22 +16,10 @@ class PhpTagsWikiHooks {
 	/**
 	 * Check on version compatibility
 	 * @return boolean
+	 * @throws MWException
 	 */
 	public static function onParserFirstCallInit() {
-		$extRegistry = ExtensionRegistry::getInstance();
-		$phpTagsLoaded = $extRegistry->isLoaded( 'PhpTags' );
-		//if ( !$extRegistry->isLoaded( 'PhpTags' ) ) { use PHPTAGS_VERSION for backward compatibility
-		if ( !($phpTagsLoaded || defined( 'PHPTAGS_VERSION' )) ) {
-			throw new MWException( "\n\nYou need to have the PhpTags extension installed in order to use the PhpTags Wiki extension." );
-		}
-		if ( $phpTagsLoaded ) {
-			$neededVersion = '5.8.0';
-			$phpTagsVersion = $extRegistry->getAllThings()['PhpTags']['version'];
-			if ( version_compare( $phpTagsVersion, $neededVersion, '<' ) ) {
-				throw new MWException( "\n\nThis version of the PhpTags Wiki extension requires the PhpTags extension $neededVersion or above.\n You have $phpTagsVersion. Please update it." );
-			}
-		}
-		if ( !$phpTagsLoaded || PHPTAGS_HOOK_RELEASE != 8 ) {
+		if ( PHPTAGS_HOOK_RELEASE != 8 ) {
 			throw new MWException( "\n\nThis version of the PhpTags Wiki extension is outdated and not compatible with current version of the PhpTags extension.\n Please update it." );
 		}
 		return true;
@@ -64,6 +54,90 @@ class PhpTagsWikiHooks {
 			$nsConstants[$key] = $value;
 		}
 		return $nsConstants;
+	}
+
+	/**
+	 * @param LinksUpdate $linksUpdate
+	 */
+	public static function onLinksUpdate( LinksUpdate $linksUpdate ) {
+		if ( !class_exists( 'TextExtracts\\ExtractFormatter' ) ) {
+			return;
+		}
+
+		$config = MediaWikiServices::getInstance()->getMainConfig();
+		try {
+			if ( !$config->get( 'PhpTagsWikiExtract' ) ) {
+				return;
+			}
+		} catch ( ConfigException $e ) {
+			MWDebug::warning( $e->getMessage() );
+			return;
+		}
+
+		$title = $linksUpdate->getTitle();
+		if ( !$title->isContentPage() ) {
+			return;
+		}
+
+		Extract::saveExtract( $title );
+	}
+
+	/**
+	 * @param Content $content
+	 * @param Title $title
+	 * @param ParserOutput $output
+	 * @global User $wgUser
+	 */
+	public static function onContentAlterParserOutput( Content $content, Title $title, ParserOutput $output ) {
+		if ( !$title->isContentPage() ) {
+			return;
+		}
+		if ( !class_exists( 'TextExtracts\\ExtractFormatter' ) ) {
+			return;
+		}
+
+		$config = MediaWikiServices::getInstance()->getMainConfig();
+		try {
+			if ( !$config->get( 'PhpTagsWikiExtract' ) || !$config->get( 'PhpTagsWikiExtractOnParserOutput' ) ) {
+				return;
+			}
+		} catch ( ConfigException $e ) {
+			MWDebug::warning( $e->getMessage() );
+			return;
+		}
+
+		$pageId = $title->getArticleID();
+		if ( !$pageId ) {
+			return;
+		}
+
+		try {
+			$db = wfGetDB( DB_REPLICA );
+			$row = $db->selectRow(
+				'phptagswiki_info',
+				'ptw_page_id',
+				[ 'ptw_page_id' => $pageId ],
+				__METHOD__
+			);
+		} catch ( Exception $exception ) {
+			MWDebug::warning( $exception->getMessage() );
+			return;
+		}
+
+		if ( $row ) {
+			return;
+		}
+
+		Extract::saveExtract( $title );
+	}
+
+	/**
+	 * This is attached to the MediaWiki 'LoadExtensionSchemaUpdates' hook.
+	 * Fired when MediaWiki is updated to allow extensions to update the database
+	 * @param DatabaseUpdater $updater
+	 */
+	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
+		$updater->addExtensionTable( 'phptagswiki_info', __DIR__ . '/sql/info.sql' );
 	}
 
 }

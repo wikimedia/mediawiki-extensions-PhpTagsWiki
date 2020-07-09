@@ -1,12 +1,17 @@
 <?php
 namespace PhpTagsObjects;
 
+use Category;
+use PhpTags\GenericObject;
+use PhpTags\Hooks;
+use PhpTags\Renderer;
+
 /**
  * Description of WikiWCategory
  *
  * @author pastakhov
  */
-class WikiWCategory extends \PhpTags\GenericObject {
+class WikiWCategory extends GenericObject {
 
 	private static $cache = [];
 
@@ -19,25 +24,25 @@ class WikiWCategory extends \PhpTags\GenericObject {
 
 	public function m___construct( $name = null ) {
 		$category = null;
-		if ( $name instanceof \PhpTags\GenericObject ) {
+		if ( $name instanceof GenericObject ) {
 			$value = $name->getValue();
-			if ( $value instanceof \Category ) {
+			if ( $value instanceof Category ) {
 				$category = $value;
 			} elseif ( $value instanceof \Title && $value->inNamespace( NS_CATEGORY ) ) {
-				$category = \Category::newFromTitle( $value );
+				$category = Category::newFromTitle( $value );
 			}
 		} elseif ( true === is_string( $name ) ) {
-			$category = \Category::newFromName( $name );
+			$category = Category::newFromName( $name );
 		} elseif ( true === is_numeric( $name ) ) {
-			$category = \Category::newFromID( (int) $name );
+			$category = Category::newFromID( (int) $name );
 		}
 
-		if ( $category instanceof \Category ) {
+		if ( $category instanceof Category ) {
 			$dbkey = $category->getTitle()->getPrefixedDBkey();
 			if ( isset( self::$cache[$dbkey] ) ) {
 				$this->value = self::$cache[$dbkey];
 			} else {
-				\PhpTags\Renderer::incrementExpensiveFunctionCount();
+				Renderer::incrementExpensiveFunctionCount();
 				self::$cache[$dbkey] = $category;
 				$this->value = $category;
 			}
@@ -76,7 +81,7 @@ class WikiWCategory extends \PhpTags\GenericObject {
 	}
 
 	public function p_title() {
-		return \PhpTags\Hooks::getObjectWithValue( 'WTitle', $this->value->getTitle() );
+		return Hooks::getObjectWithValue( 'WTitle', $this->value->getTitle() );
 	}
 
 }

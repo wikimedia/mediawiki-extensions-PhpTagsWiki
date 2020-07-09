@@ -1,12 +1,15 @@
 <?php
 namespace PhpTagsObjects;
 
+use PhpTags\GenericObject;
+use SiteStats;
+
 /**
  * Static accessor class for site_stats and related things
  *
  * @author pastakhov
  */
-class WikiWStats extends \PhpTags\GenericObject {
+class WikiWStats extends GenericObject {
 
 	/* @todo
 	 * pagesInCategory()
@@ -18,7 +21,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_ACTIVE_USERS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::activeUsers();
+			$value = (int)SiteStats::activeUsers();
 		}
 		return $value;
 	}
@@ -26,7 +29,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_ADMINS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::numberingroup( 'sysop' );
+			$value = (int)SiteStats::numberingroup( 'sysop' );
 		}
 		return $value;
 	}
@@ -34,7 +37,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_ARTICLES() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::articles();
+			$value = (int)SiteStats::articles();
 		}
 		return $value;
 	}
@@ -42,7 +45,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_EDITS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::edits();
+			$value = (int)SiteStats::edits();
 		}
 		return $value;
 	}
@@ -50,7 +53,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_FILES() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::images();
+			$value = (int)SiteStats::images();
 		}
 		return $value;
 	}
@@ -58,7 +61,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_PAGES() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::pages();
+			$value = (int)SiteStats::pages();
 		}
 		return $value;
 	}
@@ -66,7 +69,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_USERS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::users();
+			$value = (int)SiteStats::users();
 		}
 		return $value;
 	}
@@ -74,7 +77,7 @@ class WikiWStats extends \PhpTags\GenericObject {
 	public static function c_JOBS() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = (int)\SiteStats::jobs();
+			$value = (int)SiteStats::jobs();
 		}
 		return $value;
 	}

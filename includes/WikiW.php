@@ -1,17 +1,23 @@
 <?php
 namespace PhpTagsObjects;
 
+use ExtensionRegistry;
+use PhpTags\GenericObject;
+use PhpTags\Hooks;
+use SpecialVersion;
+use Title;
+
 /**
  * Description of WikiW
  *
  * @author pastakhov
  */
-class WikiW extends \PhpTags\GenericObject {
+class WikiW extends GenericObject {
 
 	public static function getConstantValue( $constantName ) {
 		switch ( $constantName ) {
 			case 'PHPTAGS_WIKI_VERSION':
-				return \ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'];
+				return ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'];
 		}
 		parent::getConstantValue( $constantName );
 	}
@@ -24,7 +30,7 @@ class WikiW extends \PhpTags\GenericObject {
 	public static function c_CURRENT_VERSION() {
 		static $value = false;
 		if ( $value === false ) {
-			$value = \SpecialVersion::getVersion();
+			$value = SpecialVersion::getVersion();
 		}
 		return $value;
 	}
@@ -41,7 +47,7 @@ class WikiW extends \PhpTags\GenericObject {
 
 	public static function c_SERVER_NAME() {
 		global $wgServer;
-		$serverParts = \wfParseUrl( $wgServer );
+		$serverParts = wfParseUrl( $wgServer );
 		return $serverParts && isset( $serverParts['host'] ) ? $serverParts['host'] : $wgServer;
 	}
 
@@ -56,9 +62,9 @@ class WikiW extends \PhpTags\GenericObject {
 	}
 
 	public static function c_MAIN_PAGE() {
-		return \PhpTags\Hooks::getObjectWithValue(
+		return Hooks::getObjectWithValue(
 				'WTitle',
-				\Title::newMainPage()
+				Title::newMainPage()
 			);
 	}
 

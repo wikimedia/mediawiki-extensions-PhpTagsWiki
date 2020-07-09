@@ -1,12 +1,19 @@
 <?php
 namespace PhpTagsObjects;
 
+use Category;
+use PhpTags\GenericObject;
+use PhpTags\HookException;
+use PhpTags\Hooks;
+use PhpTags\Renderer;
+use Title;
+
 /**
  * Description of WikiWPage
  *
  * @author pastakhov
  */
-class WikiWPage extends \PhpTags\GenericObject {
+class WikiWPage extends GenericObject {
 
 	/**
 	 * Get the article ID for current page
@@ -15,15 +22,15 @@ class WikiWPage extends \PhpTags\GenericObject {
 	public static function c_ID() {
 		static $pageid = false;
 		if ( $pageid === false ) {
-			$pageid = \PhpTags\Renderer::getParser()->getTitle()->getArticleID();
+			$pageid = Renderer::getParser()->getTitle()->getArticleID();
 		}
 		return $pageid;
 	}
 
 	public static function c_TITLE() {
-		return \PhpTags\Hooks::getObjectWithValue(
+		return Hooks::getObjectWithValue(
 				'WTitle',
-				\PhpTags\Renderer::getParser()->getTitle()
+				Renderer::getParser()->getTitle()
 			);
 	}
 
@@ -38,7 +45,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 	 * @return string
 	 */
 	public static function q_defaultSortKey() {
-		return \PhpTags\Renderer::getParser()->getCustomDefaultSort();
+		return Renderer::getParser()->getCustomDefaultSort();
 	}
 
 	/**
@@ -46,7 +53,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 	 * @param string $value
 	 */
 	public static function d_defaultSortKey( $value ) {
-		\PhpTags\Renderer::getParser()->setDefaultSort( $value );
+		Renderer::getParser()->setDefaultSort( $value );
 	}
 
 	public static function s_addCategory( $category, $sortkey = '' ) {
@@ -59,10 +66,10 @@ class WikiWPage extends \PhpTags\GenericObject {
 		}
 
 		if ( is_string( $category ) ) {
-			$titleCategory = \Title::makeTitleSafe( NS_CATEGORY, $category );
+			$titleCategory = Title::makeTitleSafe( NS_CATEGORY, $category );
 		} else {
-			$wcat = \PhpTags\Hooks::createObject( [ $category ], 'WCategory' );
-			if ( $wcat->value instanceof \Category ) {
+			$wcat = Hooks::createObject( [ $category ], 'WCategory' );
+			if ( $wcat->value instanceof Category ) {
 				$titleCategory = $wcat->value->getTitle();
 			} else {
 				$titleCategory = false;
@@ -70,11 +77,11 @@ class WikiWPage extends \PhpTags\GenericObject {
 			}
 		}
 		if ( $titleCategory ) {
-			$parser = \PhpTags\Renderer::getParser();
+			$parser = Renderer::getParser();
 			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $sortkey === '' ? $parser->getDefaultSort() : $sortkey );
 			return true;
 		} else {
-			throw new \PhpTags\HookException( "'$category' is not a valid title!" );
+			throw new HookException( "'$category' is not a valid title!" );
 		}
 	}
 

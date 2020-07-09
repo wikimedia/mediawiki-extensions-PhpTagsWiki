@@ -222,6 +222,27 @@
 					"parameters": [],
 					"return": "WidgetImage",
 					"desc": "Returns page image"
+				},
+				"getImageWidgets": {
+					"parameters": [
+						{ "type": "int", "name": "limit", "default": "100" }
+					],
+					"return": "WidgetImage[]",
+					"desc": "Returns images"
+				},
+				"getExtractChars": {
+					"parameters": [
+						{ "type": "int", "name": "length" }
+					],
+					"return": "string",
+					"desc": "Returns no more than a requested number of extracts characters, preserving words"
+				},
+				"getExtractSentences": {
+					"parameters": [
+						{ "type": "int", "name": "length" }
+					],
+					"return": "string",
+					"desc": "Returns no more than a requested number of extracts sentences"
 				}
 			},
 			"PROPERTIES": {
@@ -308,6 +329,21 @@
 				"pageImage": {
 					"type": "string",
 					"desc": "Page Image",
+					"readonly": 1
+				},
+				"wikitext": {
+					"type": "string",
+					"desc": "Wikitext source",
+					"readonly": 1
+				},
+				"extract": {
+					"type": "string",
+					"desc": "Extracts of page content",
+					"readonly": 1
+				},
+				"exists": {
+					"type": "bool",
+					"desc": "Check if page exists",
 					"readonly": 1
 				}
 			},

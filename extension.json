@@ -1,11 +1,16 @@
 {
 	"name": "PhpTags Wiki",
-	"version": "1.6.11",
+	"version": "1.6.12",
 	"author": "[https://www.mediawiki.org/wiki/User:Pastakhov Pavel Astakhov]",
 	"url": "https://www.mediawiki.org/wiki/Extension:PhpTags_Wiki",
 	"descriptionmsg": "phptagswiki-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "phptags",
+	"requires": {
+		"extensions": {
+			"PhpTags": ">= 5.8"
+		}
+	},
 	"MessagesDirs": {
 		"PhpTagsWiki": [
 			"i18n"
@@ -13,6 +18,7 @@
 	},
 	"AutoloadClasses": {
 		"PhpTagsWikiHooks": "PhpTagsWiki.hooks.php",
+		"PhpTagsWiki\\Extract": "includes/Extract.php",
 		"PhpTagsObjects\\WikiW": "includes/WikiW.php",
 		"PhpTagsObjects\\WikiWCache": "includes/WikiWCache.php",
 		"PhpTagsObjects\\WikiWCategory": "includes/WikiWCategory.php",
@@ -23,7 +29,14 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PhpTagsWikiHooks::onParserFirstCallInit",
-		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit"
+		"PhpTagsRuntimeFirstInit": "PhpTagsWikiHooks::onPhpTagsRuntimeFirstInit",
+		"ContentAlterParserOutput": "PhpTagsWikiHooks::onContentAlterParserOutput",
+		"LinksUpdate": "PhpTagsWikiHooks::onLinksUpdate",
+		"LoadExtensionSchemaUpdates": "PhpTagsWikiHooks::onLoadExtensionSchemaUpdates"
+	},
+	"config": {
+		"PhpTagsWikiExtract": false,
+		"PhpTagsWikiExtractOnParserOutput": false
 	},
 	"manifest_version": 1
 }

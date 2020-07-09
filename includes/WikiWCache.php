@@ -1,18 +1,23 @@
 <?php
 namespace PhpTagsObjects;
 
+use DateTime;
+use PhpTags\GenericObject;
+use PhpTags\Hooks;
+use PhpTags\Renderer;
+
 /**
  * The WikiWCache class manages the cache of page rendering.
  *
  * @author pastakhov
  */
-class WikiWCache extends \PhpTags\GenericObject {
+class WikiWCache extends GenericObject {
 
 	/**
 	 * Set a flag in this page indicating that the content is dynamic and shouldn't be cached.
 	 */
 	public static function s_disableCache() {
-		\PhpTags\Renderer::disableParserCache();
+		Renderer::disableParserCache();
 	}
 
 	/**
@@ -20,7 +25,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @return int
 	 */
 	public static function q_cacheExpiry() {
-		return \PhpTags\Renderer::getParser()->getOutput()->getCacheExpiry();
+		return Renderer::getParser()->getOutput()->getCacheExpiry();
 	}
 
 	/**
@@ -28,7 +33,7 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @param int $value
 	 */
 	public static function d_cacheExpiry( $value ) {
-		\PhpTags\Renderer::getParser()->getOutput()->updateCacheExpiry( $value );
+		Renderer::getParser()->getOutput()->updateCacheExpiry( $value );
 	}
 
 	/**
@@ -36,17 +41,17 @@ class WikiWCache extends \PhpTags\GenericObject {
 	 * @return string
 	 */
 	public static function c_CACHE_TIME_STRING() {
-		return \PhpTags\Renderer::getParser()->getOutput()->getCacheTime();
+		return Renderer::getParser()->getOutput()->getCacheTime();
 	}
 
 	/**
 	 * Gets time when this page was generated.
-	 * @return \PhpTags\GenericObject
+	 * @return GenericObject
 	 */
 	public static function c_CACHE_TIME() {
-		return \PhpTags\Hooks::getObjectWithValue(
+		return Hooks::getObjectWithValue(
 				'DateTime',
-				new \DateTime( self::c_CACHE_TIME_STRING() )
+				new DateTime( self::c_CACHE_TIME_STRING() )
 			);
 	}
 

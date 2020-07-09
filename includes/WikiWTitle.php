@@ -2,14 +2,24 @@
 namespace PhpTagsObjects;
 
 use Category;
+use ContentHandler;
+use Exception;
+use MediaWiki\MediaWikiServices;
+use MWDebug;
+use MWException;
 use MWNamespace;
+use MWTidy;
 use PageImages;
 use PhpTags\GenericObject;
 use PhpTags\HookException as PhpTagsHookException;
-use PhpTags\Hooks as PhpTagsHooks;
+use PhpTags\Hooks;
+use PhpTags\PhpTagsException;
 use PhpTags\Renderer;
 use PhpTags\Runtime as PhpTagsRuntime;
+use TextExtracts\ExtractFormatter;
+use TextExtracts\TextTruncator;
 use Title;
+use WikiPage;
 
 /**
  * Description of WikiWTitle
@@ -60,6 +70,28 @@ class WikiWTitle extends GenericObject {
 		return false;
 	}
 
+	/**
+	 * @return Title|null
+	 */
+	public function getRedirectTarget() {
+		$title = $this->value;
+		if ( $title instanceof Title ) {
+			if ( $title->isRedirect() ) {
+				try {
+					$page = WikiPage::factory( $title );
+				} catch ( MWException $e ) {
+					return null;
+				}
+				$title = $page->getRedirectTarget();
+				if ( !$title ) {
+					return null;
+				}
+			}
+			return $title;
+		}
+		return null;
+	}
+
 	public function m_fullUrl( $query = [] ) {
 		$title = $this->value;
 		if ( $title instanceof Title ) {
@@ -90,14 +122,14 @@ class WikiWTitle extends GenericObject {
 
 	/**
 	 * Alias of Magic word {{FULLPAGENAME}}
-	 * @param type $title
-	 * @return type
+	 * @param string|null|Title $title
+	 * @return string|null
 	 */
 	public static function c_FULL_NAME( $title = null ) {
 		if ( false === $title instanceof Title ) {
 			$title = self::getParserTitle();
 		}
-		return $title->getPrefixedText();
+		return $title->getFullText(); //$title->getPrefixedText();
 	}
 
 	public static function c_BASE_NAME( $title = null ) {
@@ -251,8 +283,8 @@ class WikiWTitle extends GenericObject {
 	}
 
 	public function p_pageImage() {
-		$title = $this->value;
-		if ( $title instanceof Title ) {
+		$title = $this->getRedirectTarget();
+		if ( $title ) {
 			if ( !class_exists( 'PageImages' ) ) {
 				PhpTagsRuntime::pushException( new PhpTagsHookException( 'The PageImages extension is not installed' ) );
 				return null;
@@ -263,6 +295,7 @@ class WikiWTitle extends GenericObject {
 			}
 			return $file->getTitle()->getFullText();
 		}
+		return null;
 	}
 
 	public function m_getPageImage() {
@@ -270,10 +303,132 @@ class WikiWTitle extends GenericObject {
 		if ( !$file ) {
 			return $file;
 		}
-		return PhpTagsHooks::getObjectWithValue(
-			'WidgetImage',
-			$file
-		);
+		return Hooks::createObject( [ $file ], 'Image' );
+	}
+
+	public function p_wikitext() {
+		$title = $this->value;
+		if ( $title instanceof Title ) {
+			$user = Renderer::getParser()->getUser();
+			try {
+				if ( !MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'read', $user, $title ) ) {
+					PhpTagsRuntime::pushException( new PhpTagsHookException( 'You cannot read Title ' . $title->getFullText() ) );
+					return null;
+				}
+				$page = WikiPage::factory( $title );
+				$content = $page->getContent();
+				$text = ContentHandler::getContentText( $content );
+				return $text;
+			} catch ( Exception $ex ) {
+				PhpTagsRuntime::pushException( new PhpTagsHookException( $ex->getMessage() ) );
+			}
+		}
+		return null;
+	}
+
+	public function p_extract() {
+		$title = $this->getRedirectTarget();
+		$pageId = $title ? $title->getArticleID() : null;
+		if ( !$pageId ) {
+			return null;
+		}
+
+		$db = wfGetDB( DB_REPLICA );
+		try {
+			$return = $db->selectField(
+				'phptagswiki_info',
+				'ptw_extract_plain',
+				[ 'ptw_page_id' => $pageId ],
+				__METHOD__
+			);
+		} catch ( MWException $exception ) {
+			MWDebug::warning( $exception->getText() );
+			$return = null;
+		}
+		return $return ?: '';
+	}
+
+	public function m_getExtractChars( $length ) {
+		$extract = $this->p_extract();
+
+		if ( class_exists( 'TextExtracts\\ExtractFormatter' ) &&
+			method_exists( 'TextExtracts\\ExtractFormatter', 'getFirstChars' )
+		) {
+			$text = ExtractFormatter::getFirstChars( $extract, $length );
+		} elseif ( class_exists( 'TextExtracts\\TextTruncator' ) &&
+			method_exists( 'TextExtracts\\TextTruncator', 'getFirstChars' )
+		) {
+			// since 1.34
+			$truncator = new TextTruncator();
+			$text = $truncator->getFirstChars( $extract, $length );
+		} else {
+			return null; // TODO error message
+		}
+
+		$text .= wfMessage( 'ellipsis' )->inContentLanguage()->text();
+		return $text;
+	}
+
+	public function m_getExtractSentences( $length ) {
+		$extract = $this->p_extract();
+
+		if ( class_exists( 'TextExtracts\\ExtractFormatter' ) &&
+			method_exists( 'TextExtracts\\ExtractFormatter', 'getFirstSentences' )
+		) {
+			$text = ExtractFormatter::getFirstSentences( $extract, $length );
+		} elseif ( class_exists( 'TextExtracts\\TextTruncator' ) &&
+			method_exists( 'TextExtracts\\TextTruncator', 'getFirstSentences' )
+		) {
+			// since 1.34
+			$truncator = new TextTruncator();
+			$text = $truncator->getFirstSentences( $extract, $length );
+		} else {
+			return null; // TODO error message
+		}
+
+		$text .= wfMessage( 'ellipsis' )->inContentLanguage()->text();
+		return $text;
+	}
+
+	public function p_exists() {
+		$title = $this->value;
+		if ( $title instanceof Title ) {
+			return $title->exists();
+		}
+		return null;
+	}
+
+	/**
+	 * @param int $limit
+	 * @return array
+	 * @throws PhpTagsException
+	 */
+	public function m_getImageWidgets( $limit = 100 ) {
+		$title = $this->getRedirectTarget();
+		if ( $title ) {
+			$pageId = $title->getArticleID();
+			if ( $pageId ) {
+				if ( $limit < 1 ) {
+					$limit = 1;
+				} elseif ( $limit > 100 ) {
+					$limit = 100;
+				}
+				$dbr = wfGetDB( DB_REPLICA );
+				$images = $dbr->selectFieldValues(
+					[ 'imagelinks' ],
+					'il_to',
+					[ 'il_from' => $pageId ],
+					__METHOD__,
+					[ 'LIMIT' => $limit, 'ORDER BY' => 'il_from', ]
+				);
+				$return = [];
+				foreach ( $images as $file ) {
+					$return[] = Hooks::createObject( [ $file ], 'Image' );
+				}
+				return $return;
+			}
+		}
+		return null;
 	}
 
 }
