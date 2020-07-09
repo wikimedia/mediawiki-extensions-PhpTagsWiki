@@ -52,7 +52,7 @@ class PhpTagsWikiHooks {
 		// Add all defined namespace constants, which either
 		// start with 'NS_' or have '_NS_' in their names
 		$phpConstants = get_defined_constants( true );
-		$nsConstants = array();
+		$nsConstants = [];
 		foreach ( $phpConstants['user'] as $key => $value ) {
 			if ( !is_int( $value ) ) {
 				continue;

@@ -61,7 +61,7 @@ class WikiWPage extends \PhpTags\GenericObject {
 		if ( is_string( $category ) ) {
 			$titleCategory = \Title::makeTitleSafe( NS_CATEGORY, $category );
 		} else {
-			$wcat = \PhpTags\Hooks::createObject( array($category), 'WCategory' );
+			$wcat = \PhpTags\Hooks::createObject( [ $category ], 'WCategory' );
 			if ( $wcat->value instanceof \Category ) {
 				$titleCategory = $wcat->value->getTitle();
 			} else {

@@ -8,7 +8,7 @@ namespace PhpTagsObjects;
  */
 class WikiWCategory extends \PhpTags\GenericObject {
 
-	private static $cache = array();
+	private static $cache = [];
 
 	public function __construct( $objectName, $objectKey, $value = null ) {
 		if ( false === $value instanceof \Category ) {
