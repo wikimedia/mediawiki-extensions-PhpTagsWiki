@@ -217,6 +217,11 @@
 					],
 					"return": "string",
 					"desc": "Get a real URL referring to this title"
+				},
+				"getPageImage": {
+					"parameters": [],
+					"return": "WidgetImage",
+					"desc": "Returns page image"
 				}
 			},
 			"PROPERTIES": {
@@ -298,6 +303,11 @@
 				"DBKey": {
 					"type": "string",
 					"desc": "Article DB Key (main part of page name with underscores)",
+					"readonly": 1
+				},
+				"pageImage": {
+					"type": "string",
+					"desc": "Page Image",
 					"readonly": 1
 				}
 			},
