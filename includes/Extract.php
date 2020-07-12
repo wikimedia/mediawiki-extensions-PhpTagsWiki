@@ -57,7 +57,8 @@ class Extract {
 				$wikitext = $freshParser->getSection( $publicContent->getText(), 0 );
 				$parserOutput = $freshParser->parse( $wikitext, $title, $options );
 				$text = $parserOutput->getText();
-				$str = '<div class="mw-parser-output">';
+				$wrapperClass = $parserOutput->getWrapperDivClass();
+				$str = "<div class=\"$wrapperClass\">";
 				if ( strncmp( $text, $str, strlen( $str ) ) === 0 ) {
 					$text = substr( $text, strlen( $str ) );
 					$text = substr( $text, 0, -strlen( '</div>' ) );
