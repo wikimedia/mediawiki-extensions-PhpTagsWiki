@@ -8,6 +8,10 @@
 					"desc": "Site language code ($wgLanguageCode)",
 					"MW": "CONTENTLANGUAGE"
 				},
+				"CURRENT_USER_NAME": {
+					"type": "string",
+					"desc": "Name of current user. It disables cache on the page"
+				},
 				"CURRENT_VERSION": {
 					"type": "string",
 					"desc": "The MediaWiki version with SVN revision if available",

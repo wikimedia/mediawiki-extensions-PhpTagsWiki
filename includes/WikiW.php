@@ -3,7 +3,9 @@ namespace PhpTagsObjects;
 
 use ExtensionRegistry;
 use PhpTags\GenericObject;
+use PhpTags\HookException;
 use PhpTags\Hooks;
+use PhpTags\Renderer;
 use SpecialVersion;
 use Title;
 
@@ -19,7 +21,7 @@ class WikiW extends GenericObject {
 			case 'PHPTAGS_WIKI_VERSION':
 				return ExtensionRegistry::getInstance()->getAllThings()['PhpTags Wiki']['version'];
 		}
-		parent::getConstantValue( $constantName );
+		return parent::getConstantValue( $constantName );
 	}
 
 	public static function c_CONTENT_LANGUAGE() {
@@ -66,6 +68,16 @@ class WikiW extends GenericObject {
 				'WTitle',
 				Title::newMainPage()
 			);
+	}
+
+	/**
+	 * @return string
+	 * @throws HookException
+	 */
+	public static function c_CURRENT_USER_NAME() {
+		$user = Renderer::getParser()->getUser();
+		Renderer::disableParserCache();
+		return $user->getName();
 	}
 
 }
