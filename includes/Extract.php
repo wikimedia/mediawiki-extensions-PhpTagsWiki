@@ -74,7 +74,7 @@ class Extract {
 				$fmt = new ExtractFormatter( $text, true );
 				$fmt->remove( $extractsRemoveClasses );
 				$extractedText = trim( $fmt->getText() );
-				return $extractedText;
+				return preg_replace( "/\n+/", " ", $extractedText );
 			}
 		} catch ( MWException $exception ) {
 			MWDebug::warning( $exception->getText() );
