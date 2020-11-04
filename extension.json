@@ -1,6 +1,6 @@
 {
 	"name": "PhpTags Wiki",
-	"version": "1.6.12",
+	"version": "1.6.13",
 	"author": "[https://www.mediawiki.org/wiki/User:Pastakhov Pavel Astakhov]",
 	"url": "https://www.mediawiki.org/wiki/Extension:PhpTags_Wiki",
 	"descriptionmsg": "phptagswiki-desc",
@@ -36,6 +36,7 @@
 	},
 	"config": {
 		"PhpTagsWikiExtract": false,
+		"PhpTagsWikiExtractAnything": false,
 		"PhpTagsWikiExtractOnParserOutput": false
 	},
 	"manifest_version": 1

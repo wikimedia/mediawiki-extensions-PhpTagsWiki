@@ -5,7 +5,6 @@ use ConfigException;
 use Exception;
 use MediaWiki\MediaWikiServices;
 use MWDebug;
-use MWException;
 use ParserOptions;
 use Revision;
 use TextExtracts\ExtractFormatter;
@@ -18,7 +17,7 @@ class Extract {
 	/**
 	 * @param Title $title
 	 */
-	public static function saveExtract( $title ) {
+	public static function saveExtract( Title $title ) {
 		$pageId = $title->getArticleID();
 		if ( $pageId <= 0 ) {
 			return;
@@ -46,7 +45,7 @@ class Extract {
 	 * @param Title $title
 	 * @return string
 	 */
-	private static function getExtract( $title ) {
+	private static function getExtract( Title $title ) {
 		global $wgParser;
 		try {
 			$page = WikiPage::factory( $title );
@@ -54,32 +53,42 @@ class Extract {
 			if ( $publicContent instanceof WikitextContent ) {
 				$options = ParserOptions::newCanonical( 'canonical' );
 				$freshParser = $wgParser->getFreshParser();
-				$wikitext = $freshParser->getSection( $publicContent->getText(), 0 );
-				$parserOutput = $freshParser->parse( $wikitext, $title, $options );
-				$text = $parserOutput->getText();
-				$wrapperClass = $parserOutput->getWrapperDivClass();
-				$str = "<div class=\"$wrapperClass\">";
-				if ( strncmp( $text, $str, strlen( $str ) ) === 0 ) {
-					$text = substr( $text, strlen( $str ) );
-					$text = substr( $text, 0, -strlen( '</div>' ) );
-				}
-
 				$config = MediaWikiServices::getInstance()->getMainConfig();
+				$extractAnything = $config->get( 'PhpTagsWikiExtractAnything' );
 				try {
 					$extractsRemoveClasses = $config->get( 'ExtractsRemoveClasses' );
 				} catch ( ConfigException $exception ) {
 					MWDebug::warning( $exception->getMessage() );
 					$extractsRemoveClasses = '';
 				}
-				$fmt = new ExtractFormatter( $text, true );
-				$fmt->remove( $extractsRemoveClasses );
-				$extractedText = trim( $fmt->getText() );
-				return preg_replace( "/\n+/", " ", $extractedText );
+				$sectionId = 0;
+				$extractedText = '';
+				do {
+					$wikitext = $freshParser->getSection( $publicContent->getText(), $sectionId, '<#NoSections#>' );
+					if ( $sectionId !== 0 && $wikitext === '<#NoSections#>' ) {
+						break;
+					}
+					if ( $wikitext ) {
+						if ( $sectionId > 0 ) {
+							// remove headers
+							$wikitext = preg_replace( '/^(=+).*\1\s*$/m', '', $wikitext );
+						}
+						$parserOutput = $freshParser->parse( $wikitext, $title, $options );
+						$text = $parserOutput->getText( [ 'unwrap' => true ] );
+						if ( $text ) {
+							$fmt = new ExtractFormatter( $text, true );
+							$fmt->remove( $extractsRemoveClasses );
+							$extractedText = trim( $fmt->getText() );
+						}
+					}
+					$sectionId++;
+				} while( !$extractedText && $extractAnything );
+				// Remove new line chars and double spaces
+				return $extractedText ? preg_replace( '/\s+/', ' ', $extractedText ) : '';
 			}
-		} catch ( MWException $exception ) {
-			MWDebug::warning( $exception->getText() );
+		} catch ( Exception $exception ) {
+			MWDebug::warning( $exception->getMessage() );
 		}
 		return '';
 	}
-
 }
