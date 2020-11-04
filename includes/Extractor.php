@@ -9,21 +9,23 @@ use ParserOptions;
 use Revision;
 use TextExtracts\ExtractFormatter;
 use Title;
+use Wikimedia\Rdbms\DBQueryError;
 use WikiPage;
 use WikitextContent;
 
-class Extract {
+class Extractor {
 
 	/**
+	 * Update extracted text in the database for title
 	 * @param Title $title
 	 */
-	public static function saveExtract( Title $title ) {
+	public static function update( Title $title ) {
 		$pageId = $title->getArticleID();
 		if ( $pageId <= 0 ) {
 			return;
 		}
 
-		$extractedText = self::getExtract( $title );
+		$extractedText = self::extract( $title );
 
 		$timestamp = wfTimestampNow();
 		$db = wfGetDB( DB_MASTER );
@@ -42,10 +44,11 @@ class Extract {
 	}
 
 	/**
+	 * Extracts text from title
 	 * @param Title $title
 	 * @return string
 	 */
-	private static function getExtract( Title $title ) {
+	private static function extract( Title $title ) {
 		global $wgParser;
 		try {
 			$page = WikiPage::factory( $title );
@@ -90,5 +93,26 @@ class Extract {
 			MWDebug::warning( $exception->getMessage() );
 		}
 		return '';
+	}
+
+	/**
+	 * Select extracted text from the database
+	 * @param int $pageId
+	 * @return string|null
+	 */
+	public static function get( int $pageId ): ?string {
+		$db = wfGetDB( DB_REPLICA );
+		try {
+			$return = $db->selectField(
+				'phptagswiki_info',
+				'ptw_extract_plain',
+				[ 'ptw_page_id' => $pageId ],
+				__METHOD__
+			);
+		} catch ( DBQueryError $exception ) {
+			MWDebug::warning( $exception->getMessage() );
+			$return = null;
+		}
+		return $return ?: '';
 	}
 }

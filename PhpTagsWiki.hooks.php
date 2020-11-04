@@ -1,7 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
-use PhpTagsWiki\Extract;
+use PhpTagsWiki\Extractor;
 
 /**
  * PhpTags Wiki MediaWiki Hooks.
@@ -79,7 +79,7 @@ class PhpTagsWikiHooks {
 			return;
 		}
 
-		Extract::saveExtract( $title );
+		Extractor::update( $title );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class PhpTagsWikiHooks {
 			return;
 		}
 
-		Extract::saveExtract( $title );
+		Extractor::update( $title );
 	}
 
 	/**

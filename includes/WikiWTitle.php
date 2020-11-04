@@ -16,6 +16,7 @@ use PhpTags\Hooks;
 use PhpTags\PhpTagsException;
 use PhpTags\Renderer;
 use PhpTags\Runtime as PhpTagsRuntime;
+use PhpTagsWiki\Extractor;
 use TextExtracts\ExtractFormatter;
 use TextExtracts\TextTruncator;
 use Title;
@@ -332,20 +333,7 @@ class WikiWTitle extends GenericObject {
 		if ( !$pageId ) {
 			return null;
 		}
-
-		$db = wfGetDB( DB_REPLICA );
-		try {
-			$return = $db->selectField(
-				'phptagswiki_info',
-				'ptw_extract_plain',
-				[ 'ptw_page_id' => $pageId ],
-				__METHOD__
-			);
-		} catch ( MWException $exception ) {
-			MWDebug::warning( $exception->getText() );
-			$return = null;
-		}
-		return $return ?: '';
+		return Extractor::get( $pageId );
 	}
 
 	public function m_getExtractChars( $length ) {
