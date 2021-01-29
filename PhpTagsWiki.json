@@ -77,7 +77,7 @@
 		"WCategory": {
 			"class": "WikiWCategory",
 			"METHODS": {
-				"__construct" : {
+				"__construct": {
 					"parameters": [
 						{ "type": "mixed", "name": "name" }
 					],
@@ -429,7 +429,7 @@
 		}
 	},
 	"constants": {
-		"PHPTAGS_WIKI_VERSION" : {
+		"PHPTAGS_WIKI_VERSION": {
 			"desc": "The current version of the PhpTags Wiki extension as a string",
 			"class": "WikiW",
 			"type": "string",
