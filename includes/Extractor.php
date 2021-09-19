@@ -28,7 +28,7 @@ class Extractor {
 		$extractedText = self::extract( $title );
 
 		$timestamp = wfTimestampNow();
-		$db = wfGetDB( DB_MASTER );
+		$db = wfGetDB( DB_PRIMARY );
 		$index = [
 			'ptw_page_id' => $pageId,
 		];
