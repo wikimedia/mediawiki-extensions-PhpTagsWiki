@@ -7,7 +7,6 @@ use Exception;
 use MediaWiki\MediaWikiServices;
 use MWDebug;
 use MWException;
-use MWNamespace;
 use MWTidy;
 use PageImages;
 use PhpTags\GenericObject;
@@ -166,7 +165,7 @@ class WikiWTitle extends GenericObject {
 			$title = self::getParserTitle();
 		}
 		$namespace = $title->getNamespace();
-		return MWNamespace::getSubject( $namespace );
+		return MediaWikiServices::getInstance()->getNamespaceInfo()->getSubject( $namespace );
 	}
 
 	public static function c_TALK_NS_TEXT( $title = null ) {
@@ -181,7 +180,7 @@ class WikiWTitle extends GenericObject {
 			$title = self::getParserTitle();
 		}
 		$namespace = $title->getNamespace();
-		return MWNamespace::getTalk( $namespace );
+		return MediaWikiServices::getInstance()->getNamespaceInfo()->getTalk( $namespace );
 	}
 
 	public static function c_IS_CONTENT_PAGE( $title = null ) {
