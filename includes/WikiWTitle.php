@@ -309,7 +309,14 @@ class WikiWTitle extends GenericObject {
 	public function p_wikitext() {
 		$title = $this->value;
 		if ( $title instanceof Title ) {
-			$user = Renderer::getParser()->getUser();
+			$parser = Renderer::getParser();
+			if ( method_exists( $parser, 'getUserIdentity' ) ) {
+				// MW 1.36+
+				$user = MediaWikiServices::getInstance()
+					->getUserFactory()->newFromUserIdentity( $parser->getUserIdentity() );
+			} else {
+				$user = $parser->getUser();
+			}
 			try {
 				if ( !MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'read', $user, $title ) ) {
 					PhpTagsRuntime::pushException( new PhpTagsHookException( 'You cannot read Title ' . $title->getFullText() ) );

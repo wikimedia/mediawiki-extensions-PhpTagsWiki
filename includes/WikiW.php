@@ -75,7 +75,13 @@ class WikiW extends GenericObject {
 	 * @throws HookException
 	 */
 	public static function c_CURRENT_USER_NAME() {
-		$user = Renderer::getParser()->getUser();
+		$parser = Renderer::getParser();
+		if ( method_exists( $parser, 'getUserIdentity' ) ) {
+			// MW 1.36+
+			$user = $parser->getUserIdentity();
+		} else {
+			$user = $parser->getUser();
+		}
 		Renderer::disableParserCache();
 		return $user->getName();
 	}
