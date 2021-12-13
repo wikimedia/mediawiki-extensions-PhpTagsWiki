@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Esketti"
+			"Esketti",
+			"McDutchie"
 		]
 	},
-	"phptagswiki-desc": "Bevat een aantal voorwerpen voor de PhpTags extensie die werken met MediaWiki-core"
+	"phptagswiki-desc": "Bevat een aantal objecten voor de PhpTags-uitbreiding die werken met de kernsoftware van MediaWiki"
 }
