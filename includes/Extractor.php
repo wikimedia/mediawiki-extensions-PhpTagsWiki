@@ -54,7 +54,7 @@ class Extractor {
 			$page = WikiPage::factory( $title );
 			$publicContent = $page->getContent( Revision::FOR_PUBLIC );
 			if ( $publicContent instanceof WikitextContent ) {
-				$options = ParserOptions::newCanonical( 'canonical' );
+				$options = ParserOptions::newFromAnon();
 				$freshParser = $wgParser->getFreshParser();
 				$config = MediaWikiServices::getInstance()->getMainConfig();
 				$extractAnything = $config->get( 'PhpTagsWikiExtractAnything' );
