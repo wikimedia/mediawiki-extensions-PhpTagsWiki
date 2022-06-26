@@ -78,7 +78,12 @@ class WikiWTitle extends GenericObject {
 		if ( $title instanceof Title ) {
 			if ( $title->isRedirect() ) {
 				try {
-					$page = WikiPage::factory( $title );
+					if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+						// MW 1.36+
+						$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
+					} else {
+						$page = WikiPage::factory( $title );
+					}
 				} catch ( MWException $e ) {
 					return null;
 				}
@@ -322,7 +327,12 @@ class WikiWTitle extends GenericObject {
 					PhpTagsRuntime::pushException( new PhpTagsHookException( 'You cannot read Title ' . $title->getFullText() ) );
 					return null;
 				}
-				$page = WikiPage::factory( $title );
+				if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+					// MW 1.36+
+					$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
+				} else {
+					$page = WikiPage::factory( $title );
+				}
 				$content = $page->getContent();
 				$text = ContentHandler::getContentText( $content );
 				return $text;

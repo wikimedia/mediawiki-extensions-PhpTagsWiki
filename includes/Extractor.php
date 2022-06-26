@@ -51,7 +51,12 @@ class Extractor {
 	private static function extract( Title $title ) {
 		global $wgParser;
 		try {
-			$page = WikiPage::factory( $title );
+			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+				// MW 1.36+
+				$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
+			} else {
+				$page = WikiPage::factory( $title );
+			}
 			$publicContent = $page->getContent( Revision::FOR_PUBLIC );
 			if ( $publicContent instanceof WikitextContent ) {
 				$options = ParserOptions::newFromAnon();
