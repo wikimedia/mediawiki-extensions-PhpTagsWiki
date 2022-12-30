@@ -1,6 +1,9 @@
 <?php
 namespace PhpTags;
 
+/**
+ * @coversNothing
+ */
 class PhpTagsWiki_Test extends \PHPUnit\Framework\TestCase {
 
 	public function testRun_NS_FILE_constant() {
