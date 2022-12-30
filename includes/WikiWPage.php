@@ -45,7 +45,12 @@ class WikiWPage extends GenericObject {
 	 * @return string
 	 */
 	public static function q_defaultSortKey() {
-		return Renderer::getParser()->getCustomDefaultSort();
+		$parserOutput = Renderer::getParser()->getOutput();
+		if ( method_exists( $parserOutput, 'getPageProperty' ) ) {
+			// MW 1.38+
+			return $parserOutput->getPageProperty( 'defaultsort' ) ?? false;
+		}
+		return $parserOutput->getProperty( 'defaultsort' );
 	}
 
 	/**
@@ -53,7 +58,12 @@ class WikiWPage extends GenericObject {
 	 * @param string $value
 	 */
 	public static function d_defaultSortKey( $value ) {
-		Renderer::getParser()->setDefaultSort( $value );
+		$parserOutput = Renderer::getParser()->getOutput();
+		if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+			// MW 1.38+
+			return $parserOutput->setPageProperty( 'defaultsort', $value );
+		}
+		return $parserOutput->setProperty( 'defaultsort', $value );
 	}
 
 	public static function s_addCategory( $category, $sortkey = '' ) {
@@ -77,8 +87,14 @@ class WikiWPage extends GenericObject {
 			}
 		}
 		if ( $titleCategory ) {
-			$parser = Renderer::getParser();
-			$parser->getOutput()->addCategory( $titleCategory->getDBkey(), $sortkey === '' ? $parser->getDefaultSort() : $sortkey );
+			$parserOutput = Renderer::getParser()->getOutput();
+			if ( method_exists( $parserOutput, 'getPageProperty' ) ) {
+				// MW 1.38+
+				$defaultSort = $parserOutput->getPageProperty( 'defaultsort' ) ?? '';
+			} else {
+				$defaultSort = $parserOutput->getProperty( 'defaultsort' ) ?: '';
+			}
+			$parserOutput->addCategory( $titleCategory->getDBkey(), $sortkey === '' ? $defaultSort : $sortkey );
 			return true;
 		} else {
 			throw new HookException( "'$category' is not a valid title!" );
