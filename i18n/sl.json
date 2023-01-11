@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"phptagswiki-desc": "Vsebuje nekatere objekte za razširitev PhpTags, ki delujejo z jedrom MediaWikija"
+}
