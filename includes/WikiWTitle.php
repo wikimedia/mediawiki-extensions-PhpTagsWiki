@@ -5,10 +5,8 @@ use Category;
 use ContentHandler;
 use Exception;
 use MediaWiki\MediaWikiServices;
-use MWDebug;
 use MWException;
-use MWTidy;
-use PageImages;
+use PageImages\PageImages;
 use PhpTags\GenericObject;
 use PhpTags\HookException as PhpTagsHookException;
 use PhpTags\Hooks;
@@ -290,7 +288,7 @@ class WikiWTitle extends GenericObject {
 	public function p_pageImage() {
 		$title = $this->getRedirectTarget();
 		if ( $title ) {
-			if ( !class_exists( 'PageImages' ) ) {
+			if ( !class_exists( 'PageImages\PageImages' ) ) {
 				PhpTagsRuntime::pushException( new PhpTagsHookException( 'The PageImages extension is not installed' ) );
 				return null;
 			}
@@ -363,7 +361,7 @@ class WikiWTitle extends GenericObject {
 			method_exists( 'TextExtracts\\TextTruncator', 'getFirstChars' )
 		) {
 			// since 1.34
-			$truncator = new TextTruncator();
+			$truncator = new TextTruncator( true );
 			$text = $truncator->getFirstChars( $extract, $length );
 		} else {
 			return null; // TODO error message
@@ -384,7 +382,7 @@ class WikiWTitle extends GenericObject {
 			method_exists( 'TextExtracts\\TextTruncator', 'getFirstSentences' )
 		) {
 			// since 1.34
-			$truncator = new TextTruncator();
+			$truncator = new TextTruncator( true );
 			$text = $truncator->getFirstSentences( $extract, $length );
 		} else {
 			return null; // TODO error message
