@@ -49,7 +49,6 @@ class Extractor {
 	 * @return string
 	 */
 	private static function extract( Title $title ) {
-		global $wgParser;
 		try {
 			if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
 				// MW 1.36+
@@ -60,7 +59,7 @@ class Extractor {
 			$publicContent = $page->getContent( Revision::FOR_PUBLIC );
 			if ( $publicContent instanceof WikitextContent ) {
 				$options = ParserOptions::newFromAnon();
-				$freshParser = $wgParser->getFreshParser();
+				$freshParser = MediaWikiServices::getInstance()->getParserFactory()->getInstance();
 				$config = MediaWikiServices::getInstance()->getMainConfig();
 				$extractAnything = $config->get( 'PhpTagsWikiExtractAnything' );
 				try {
