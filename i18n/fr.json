@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"SnowedEarth"
+			"SnowedEarth",
+			"Verdy p"
 		]
 	},
-	"phptagswiki-desc": "Contient certains objets pour l'extension PhpTags qui fonctionnent avec le noyau de MediaWiki"
+	"phptagswiki-desc": "Contient quelques objets pour l’extension PhpTags qui fonctionnent avec le noyau de MediaWiki"
 }
