@@ -59,7 +59,7 @@ class PhpTagsWikiHooks {
 	/**
 	 * @param LinksUpdate $linksUpdate
 	 */
-	public static function onLinksUpdate( LinksUpdate $linksUpdate ) {
+	public static function onLinksUpdate( $linksUpdate ) {
 		if ( !class_exists( 'TextExtracts\\ExtractFormatter' ) ) {
 			return;
 		}
