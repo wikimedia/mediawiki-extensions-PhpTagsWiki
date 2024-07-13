@@ -6,7 +6,6 @@ use Exception;
 use MediaWiki\MediaWikiServices;
 use MWDebug;
 use ParserOptions;
-use Revision;
 use TextExtracts\ExtractFormatter;
 use Title;
 use Wikimedia\Rdbms\DBQueryError;
@@ -56,7 +55,7 @@ class Extractor {
 			} else {
 				$page = WikiPage::factory( $title );
 			}
-			$publicContent = $page->getContent( Revision::FOR_PUBLIC );
+			$publicContent = $page->getContent( RevisionRecord::FOR_PUBLIC );
 			if ( $publicContent instanceof WikitextContent ) {
 				$options = ParserOptions::newFromAnon();
 				$freshParser = MediaWikiServices::getInstance()->getParserFactory()->getInstance();
