@@ -27,7 +27,7 @@ class Extractor {
 		$extractedText = self::extract( $title );
 
 		$timestamp = wfTimestampNow();
-		$db = wfGetDB( DB_PRIMARY );
+		$db = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$index = [
 			'ptw_page_id' => $pageId,
 		];
@@ -104,7 +104,7 @@ class Extractor {
 	 * @return string|null
 	 */
 	public static function get( int $pageId ): ?string {
-		$db = wfGetDB( DB_REPLICA );
+		$db = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		try {
 			$return = $db->selectField(
 				'phptagswiki_info',

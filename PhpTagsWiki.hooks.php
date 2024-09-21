@@ -112,7 +112,7 @@ class PhpTagsWikiHooks {
 		}
 
 		try {
-			$db = wfGetDB( DB_REPLICA );
+			$db = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 			$row = $db->selectRow(
 				'phptagswiki_info',
 				'ptw_page_id',

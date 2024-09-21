@@ -415,7 +415,7 @@ class WikiWTitle extends GenericObject {
 				} elseif ( $limit > 100 ) {
 					$limit = 100;
 				}
-				$dbr = wfGetDB( DB_REPLICA );
+				$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 				$images = $dbr->selectFieldValues(
 					[ 'imagelinks' ],
 					'il_to',
