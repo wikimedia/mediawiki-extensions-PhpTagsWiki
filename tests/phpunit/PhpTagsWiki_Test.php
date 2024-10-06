@@ -6,6 +6,16 @@ namespace PhpTags;
  */
 class PhpTagsWiki_Test extends \PHPUnit\Framework\TestCase {
 
+	public static function setUpBeforeClass() : void {
+		if ( Renderer::$needInitRuntime ) {
+			\MediaWiki\MediaWikiServices::getInstance()->getHookContainer()->run( 'PhpTagsRuntimeFirstInit' );
+			Hooks::loadData();
+			Runtime::$loopsLimit = 1000;
+			Renderer::$needInitRuntime = false;
+		}
+
+	}
+
 	public function testRun_NS_FILE_constant() {
 		$this->assertEquals(
 				Runtime::runSource('echo NS_FILE;'),
