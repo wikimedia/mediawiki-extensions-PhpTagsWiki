@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Xuacu"
+			"Xuacu",
+			"YoaR"
 		]
 	},
-	"phptagswiki-desc": "Contien dalgunos oxetos pa la estensión PhpTags que funcionen col nucleu de MediaWiki"
+	"phptagswiki-desc": "Contién dalgunos oxetos pa la estensión PhpTags que funcionen col nucleu de MediaWiki"
 }
